@@ -4195,7 +4195,7 @@ export const createUrlCheck: API.OperationMethod<
   span: "CreateUrlCheck",
 }));
 
-export type CreateWorkspaceError = BadRequest | Forbidden | PrismaOpError;
+export type CreateWorkspaceError = BadRequest | Forbidden | Conflict | PrismaOpError;
 /** Create a workspace U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Creates a new free-plan workspace owned by the authenticated user. For agent tokens the workspace is created for the agent's sponsor, and the agent's permission policy treats this as an admin action -- under the default policy the sponsor approves it first. */
 export const createWorkspace: API.OperationMethod<
   CreateWorkspaceRequest,
@@ -4205,7 +4205,7 @@ export const createWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<CreateWorkspaceRequest>,
   output: __S(1312, __c82, 0) as any as S.Schema<CreateWorkspaceResponse>,
-  errors: [BadRequest, Forbidden, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4216,7 +4216,6 @@ export type CreateWorkspaceDomainOwnershipError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
-  | DomainOwnershipRequired
   | PrismaOpError;
 /** Create a domain ownership U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Records that the workspace intends to own the domain, looks up its verification record, and returns the domain ownership, verified when the record carries the workspace's value and unverified otherwise. Publish the record in `verification`, then verify the domain ownership to complete it. When DNS gives no answer, the domain ownership is unverified, its DNS fields are empty, and the platform checks again later. The lookup also updates the other domain ownerships whose verification record has the same name, in every workspace. A domain the workspace already holds is checked again and returned. */
 export const createWorkspaceDomainOwnership: API.OperationMethod<
@@ -4227,7 +4226,7 @@ export const createWorkspaceDomainOwnership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<CreateWorkspaceDomainOwnershipRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<CreateWorkspaceDomainOwnershipResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, DomainOwnershipRequired, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
