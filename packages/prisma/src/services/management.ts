@@ -84,6 +84,54 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** The hostname is not one a RoutingUrl can serve. */
+export class RoutingUrlInvalidHostname
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<RoutingUrlInvalidHostname>()("RoutingUrlInvalidHostname", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 422, body: { "/error/code": "invalid-hostname" } }],
+  ) {}
+
+/** Another live RoutingUrl on the Branch already has this `logicalId`. */
+export class RoutingUrlLogicalIdTaken
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<RoutingUrlLogicalIdTaken>()("RoutingUrlLogicalIdTaken", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/error/code": "logical-id-taken" } }],
+  ) {}
+
+/** The service has reached its hostname quota. Remove a RoutingUrl from it, or use another service. */
+export class RoutingUrlQuotaExceeded
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<RoutingUrlQuotaExceeded>()("RoutingUrlQuotaExceeded", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/error/code": "quota-exceeded" } }],
+  ) {}
+
+/** The service is not on a Branch, so it cannot have a RoutingUrl. */
+export class RoutingUrlServiceNotOnABranch
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<RoutingUrlServiceNotOnABranch>()("RoutingUrlServiceNotOnABranch", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 422, body: { "/error/code": "service-not-on-a-branch" } }],
+  ) {}
+
+/** The new service is on another Branch than the RoutingUrl. */
+export class RoutingUrlServiceOnAnotherBranch
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<RoutingUrlServiceOnAnotherBranch>()(
+      "RoutingUrlServiceOnAnotherBranch",
+      {
+        message: S.String,
+      },
+    ).pipe(C.withBadRequestError),
+    [{ status: 422, body: { "/error/code": "service-on-another-branch" } }],
+  ) {}
+
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
@@ -3620,8 +3668,8 @@ export const createAuthGithubActionsToken: API.OperationMethod<
   CreateAuthGithubActionsTokenError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<CreateAuthGithubActionsTokenRequest>,
-  output: __S(1922, __c120, 2) as any as S.Schema<CreateAuthGithubActionsTokenResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<CreateAuthGithubActionsTokenRequest>,
+  output: __S(322, __c20, 2) as any as S.Schema<CreateAuthGithubActionsTokenResponse>,
   errors: [BadRequest, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -3637,8 +3685,8 @@ export const createBucket: API.OperationMethod<
   CreateBucketError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<CreateBucketRequest>,
-  output: __S(2176, __c136, 0) as any as S.Schema<CreateBucketResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<CreateBucketRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<CreateBucketResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -3654,8 +3702,8 @@ export const createBucketKey: API.OperationMethod<
   CreateBucketKeyError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<CreateBucketKeyRequest>,
-  output: __S(2450, __c153, 2) as any as S.Schema<CreateBucketKeyResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<CreateBucketKeyRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<CreateBucketKeyResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -3671,8 +3719,8 @@ export const createBuild: API.OperationMethod<
   CreateBuildError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<CreateBuildRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<CreateBuildResponse>,
+  input: __S(593, __c37, 1) as any as S.Schema<CreateBuildRequest>,
+  output: __S(608, __c38, 0) as any as S.Schema<CreateBuildResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -3693,8 +3741,8 @@ export const createConnection: API.OperationMethod<
   CreateConnectionError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<CreateConnectionRequest>,
-  output: __S(243, __c15, 3) as any as S.Schema<CreateConnectionResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<CreateConnectionRequest>,
+  output: __S(675, __c42, 3) as any as S.Schema<CreateConnectionResponse>,
   errors: [BadRequest, Conflict, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -3710,8 +3758,8 @@ export const createConnectionRotate: API.OperationMethod<
   CreateConnectionRotateError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<CreateConnectionRotateRequest>,
-  output: __S(243, __c15, 3) as any as S.Schema<CreateConnectionRotateResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<CreateConnectionRotateRequest>,
+  output: __S(675, __c42, 3) as any as S.Schema<CreateConnectionRotateResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -3733,8 +3781,8 @@ export const createDatabase: API.OperationMethod<
   CreateDatabaseError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(529, __c33, 1) as any as S.Schema<CreateDatabaseRequest>,
-  output: __S(532, __c33, 4) as any as S.Schema<CreateDatabaseResponse>,
+  input: __S(705, __c44, 1) as any as S.Schema<CreateDatabaseRequest>,
+  output: __S(708, __c44, 4) as any as S.Schema<CreateDatabaseResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -3754,8 +3802,8 @@ export const createDatabaseConnection: API.OperationMethod<
   CreateDatabaseConnectionError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<CreateDatabaseConnectionRequest>,
-  output: __S(243, __c15, 3) as any as S.Schema<CreateDatabaseConnectionResponse>,
+  input: __S(784, __c49, 0) as any as S.Schema<CreateDatabaseConnectionRequest>,
+  output: __S(675, __c42, 3) as any as S.Schema<CreateDatabaseConnectionResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -3776,8 +3824,8 @@ export const createDatabaseRestore: API.OperationMethod<
   CreateDatabaseRestoreError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<CreateDatabaseRestoreRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<CreateDatabaseRestoreResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<CreateDatabaseRestoreRequest>,
+  output: __S(802, __c50, 2) as any as S.Schema<CreateDatabaseRestoreResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -3798,8 +3846,8 @@ export const createDeploymentStart: API.OperationMethod<
   CreateDeploymentStartError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<CreateDeploymentStartRequest>,
-  output: __S(690, __c43, 2) as any as S.Schema<CreateDeploymentStartResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<CreateDeploymentStartRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<CreateDeploymentStartResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -3820,8 +3868,8 @@ export const createDeploymentStop: API.OperationMethod<
   CreateDeploymentStopError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<CreateDeploymentStopRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<CreateDeploymentStopResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<CreateDeploymentStopRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<CreateDeploymentStopResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -3837,8 +3885,8 @@ export const createDomainOwnershipVerify: API.OperationMethod<
   CreateDomainOwnershipVerifyError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<CreateDomainOwnershipVerifyRequest>,
-  output: __S(784, __c49, 0) as any as S.Schema<CreateDomainOwnershipVerifyResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<CreateDomainOwnershipVerifyRequest>,
+  output: __S(960, __c60, 0) as any as S.Schema<CreateDomainOwnershipVerifyResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -3854,8 +3902,8 @@ export const createDomainRetry: API.OperationMethod<
   CreateDomainRetryError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<CreateDomainRetryRequest>,
-  output: __S(832, __c52, 0) as any as S.Schema<CreateDomainRetryResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<CreateDomainRetryRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<CreateDomainRetryResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -3876,8 +3924,8 @@ export const createEnvironmentVariable: API.OperationMethod<
   CreateEnvironmentVariableError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<CreateEnvironmentVariableRequest>,
-  output: __S(864, __c54, 0) as any as S.Schema<CreateEnvironmentVariableResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<CreateEnvironmentVariableRequest>,
+  output: __S(1040, __c65, 0) as any as S.Schema<CreateEnvironmentVariableResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -3893,8 +3941,8 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<CreateProjectRequest>,
-  output: __S(900, __c56, 4) as any as S.Schema<CreateProjectResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<CreateProjectRequest>,
+  output: __S(1076, __c67, 4) as any as S.Schema<CreateProjectResponse>,
   errors: [BadRequest, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -3915,8 +3963,8 @@ export const createProjectBranch: API.OperationMethod<
   CreateProjectBranchError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<CreateProjectBranchRequest>,
-  output: __S(944, __c59, 0) as any as S.Schema<CreateProjectBranchResponse>,
+  input: __S(1104, __c69, 0) as any as S.Schema<CreateProjectBranchRequest>,
+  output: __S(1120, __c70, 0) as any as S.Schema<CreateProjectBranchResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -3936,8 +3984,8 @@ export const createProjectBranchAlchemyStateLease: API.OperationMethod<
   CreateProjectBranchAlchemyStateLeaseError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<CreateProjectBranchAlchemyStateLeaseRequest>,
-  output: __S(993, __c62, 1) as any as S.Schema<CreateProjectBranchAlchemyStateLeaseResponse>,
+  input: __S(1152, __c72, 0) as any as S.Schema<CreateProjectBranchAlchemyStateLeaseRequest>,
+  output: __S(1169, __c73, 1) as any as S.Schema<CreateProjectBranchAlchemyStateLeaseResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -3959,8 +4007,8 @@ export const createProjectDatabase: API.OperationMethod<
   CreateProjectDatabaseError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1010, __c63, 2) as any as S.Schema<CreateProjectDatabaseRequest>,
-  output: __S(1013, __c63, 5) as any as S.Schema<CreateProjectDatabaseResponse>,
+  input: __S(1186, __c74, 2) as any as S.Schema<CreateProjectDatabaseRequest>,
+  output: __S(1189, __c74, 5) as any as S.Schema<CreateProjectDatabaseResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -3981,8 +4029,8 @@ export const createProjectTransfer: API.OperationMethod<
   CreateProjectTransferError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<CreateProjectTransferRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<CreateProjectTransferResponse>,
+  input: __S(1200, __c75, 0) as any as S.Schema<CreateProjectTransferRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<CreateProjectTransferResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4003,8 +4051,8 @@ export const createScmInstallationsInstallIntent: API.OperationMethod<
   CreateScmInstallationsInstallIntentError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<CreateScmInstallationsInstallIntentRequest>,
-  output: __S(1042, __c65, 2) as any as S.Schema<CreateScmInstallationsInstallIntentResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<CreateScmInstallationsInstallIntentRequest>,
+  output: __S(1218, __c76, 2) as any as S.Schema<CreateScmInstallationsInstallIntentResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4026,8 +4074,8 @@ export const createService: API.OperationMethod<
   CreateServiceError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<CreateServiceRequest>,
-  output: __S(1088, __c68, 0) as any as S.Schema<CreateServiceResponse>,
+  input: __S(1232, __c77, 0) as any as S.Schema<CreateServiceRequest>,
+  output: __S(1264, __c79, 0) as any as S.Schema<CreateServiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4048,8 +4096,8 @@ export const createServiceDeployment: API.OperationMethod<
   CreateServiceDeploymentError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1105, __c69, 1) as any as S.Schema<CreateServiceDeploymentRequest>,
-  output: __S(1107, __c69, 3) as any as S.Schema<CreateServiceDeploymentResponse>,
+  input: __S(1281, __c80, 1) as any as S.Schema<CreateServiceDeploymentRequest>,
+  output: __S(1283, __c80, 3) as any as S.Schema<CreateServiceDeploymentResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4073,8 +4121,8 @@ export const createServiceDomain: API.OperationMethod<
   CreateServiceDomainError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<CreateServiceDomainRequest>,
-  output: __S(1121, __c70, 1) as any as S.Schema<CreateServiceDomainResponse>,
+  input: __S(1296, __c81, 0) as any as S.Schema<CreateServiceDomainRequest>,
+  output: __S(1297, __c81, 1) as any as S.Schema<CreateServiceDomainResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -4105,8 +4153,8 @@ export const createServicePromote: API.OperationMethod<
   CreateServicePromoteError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<CreateServicePromoteRequest>,
-  output: __S(1153, __c72, 1) as any as S.Schema<CreateServicePromoteResponse>,
+  input: __S(1312, __c82, 0) as any as S.Schema<CreateServicePromoteRequest>,
+  output: __S(1329, __c83, 1) as any as S.Schema<CreateServicePromoteResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4128,8 +4176,8 @@ export const createServiceRollback: API.OperationMethod<
   CreateServiceRollbackError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<CreateServiceRollbackRequest>,
-  output: __S(1153, __c72, 1) as any as S.Schema<CreateServiceRollbackResponse>,
+  input: __S(1344, __c84, 0) as any as S.Schema<CreateServiceRollbackRequest>,
+  output: __S(1329, __c83, 1) as any as S.Schema<CreateServiceRollbackResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4142,6 +4190,10 @@ export type CreateServiceUrlError =
   | NotFound
   | Conflict
   | UnprocessableEntity
+  | RoutingUrlQuotaExceeded
+  | RoutingUrlLogicalIdTaken
+  | RoutingUrlInvalidHostname
+  | RoutingUrlServiceNotOnABranch
   | PrismaOpError;
 /** Create a RoutingUrl U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Saves a hostname for the service, before its DNS exists, and answers with what is still missing. The RoutingUrl is `pending` until every condition is met, then `active`, and goes live on its own once the DNS records are published and a covering domain ownership is verified. Unless `createDomainOwnership` is `false`, a domain ownership for the exact hostname is created when no verified one covers it. A custom domain is registered with Foundry only once ownership is verified, and each registration counts against the workspace's hourly limit of new certificates. When the limit is reached, the RoutingUrl waits, `customDomainSyncError` says when the limit resets, and it registers then on its own. */
 export const createServiceUrl: API.OperationMethod<
@@ -4150,9 +4202,19 @@ export const createServiceUrl: API.OperationMethod<
   CreateServiceUrlError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<CreateServiceUrlRequest>,
-  output: __S(1200, __c75, 0) as any as S.Schema<CreateServiceUrlResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  input: __S(1360, __c85, 0) as any as S.Schema<CreateServiceUrlRequest>,
+  output: __S(1376, __c86, 0) as any as S.Schema<CreateServiceUrlResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    Conflict,
+    UnprocessableEntity,
+    RoutingUrlQuotaExceeded,
+    RoutingUrlLogicalIdTaken,
+    RoutingUrlInvalidHostname,
+    RoutingUrlServiceNotOnABranch,
+    UnknownPrismaError,
+  ],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4173,8 +4235,8 @@ export const createSourceRepository: API.OperationMethod<
   CreateSourceRepositoryError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<CreateSourceRepositoryRequest>,
-  output: __S(1264, __c79, 0) as any as S.Schema<CreateSourceRepositoryResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<CreateSourceRepositoryRequest>,
+  output: __S(1440, __c90, 0) as any as S.Schema<CreateSourceRepositoryResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4190,8 +4252,8 @@ export const createUrlCheck: API.OperationMethod<
   CreateUrlCheckError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<CreateUrlCheckRequest>,
-  output: __S(1200, __c75, 0) as any as S.Schema<CreateUrlCheckResponse>,
+  input: __S(1456, __c91, 0) as any as S.Schema<CreateUrlCheckRequest>,
+  output: __S(1376, __c86, 0) as any as S.Schema<CreateUrlCheckResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4207,8 +4269,8 @@ export const createWorkspace: API.OperationMethod<
   CreateWorkspaceError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<CreateWorkspaceRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<CreateWorkspaceResponse>,
+  input: __S(1472, __c92, 0) as any as S.Schema<CreateWorkspaceRequest>,
+  output: __S(1488, __c93, 0) as any as S.Schema<CreateWorkspaceResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4228,8 +4290,8 @@ export const createWorkspaceDomainOwnership: API.OperationMethod<
   CreateWorkspaceDomainOwnershipError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<CreateWorkspaceDomainOwnershipRequest>,
-  output: __S(1345, __c84, 1) as any as S.Schema<CreateWorkspaceDomainOwnershipResponse>,
+  input: __S(1520, __c95, 0) as any as S.Schema<CreateWorkspaceDomainOwnershipRequest>,
+  output: __S(1521, __c95, 1) as any as S.Schema<CreateWorkspaceDomainOwnershipResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4249,8 +4311,8 @@ export const createWorkspaceServiceToken: API.OperationMethod<
   CreateWorkspaceServiceTokenError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<CreateWorkspaceServiceTokenRequest>,
-  output: __S(1362, __c85, 2) as any as S.Schema<CreateWorkspaceServiceTokenResponse>,
+  input: __S(1536, __c96, 0) as any as S.Schema<CreateWorkspaceServiceTokenRequest>,
+  output: __S(1538, __c96, 2) as any as S.Schema<CreateWorkspaceServiceTokenResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4271,8 +4333,8 @@ export const deleteBranch: API.OperationMethod<
   DeleteBranchError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<DeleteBranchRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<DeleteBranchResponse>,
+  input: __S(1552, __c97, 0) as any as S.Schema<DeleteBranchRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<DeleteBranchResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4288,8 +4350,8 @@ export const deleteBucket: API.OperationMethod<
   DeleteBucketError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<DeleteBucketRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<DeleteBucketResponse>,
+  input: __S(1568, __c98, 0) as any as S.Schema<DeleteBucketRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<DeleteBucketResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4305,8 +4367,8 @@ export const deleteBucketKey: API.OperationMethod<
   DeleteBucketKeyError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<DeleteBucketKeyRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<DeleteBucketKeyResponse>,
+  input: __S(1584, __c99, 0) as any as S.Schema<DeleteBucketKeyRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<DeleteBucketKeyResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4322,8 +4384,8 @@ export const deleteConnection: API.OperationMethod<
   DeleteConnectionError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<DeleteConnectionRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<DeleteConnectionResponse>,
+  input: __S(1600, __c100, 0) as any as S.Schema<DeleteConnectionRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<DeleteConnectionResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4344,8 +4406,8 @@ export const deleteDatabase: API.OperationMethod<
   DeleteDatabaseError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<DeleteDatabaseRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<DeleteDatabaseResponse>,
+  input: __S(1616, __c101, 0) as any as S.Schema<DeleteDatabaseRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<DeleteDatabaseResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4361,8 +4423,8 @@ export const deleteDeployment: API.OperationMethod<
   DeleteDeploymentError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<DeleteDeploymentRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<DeleteDeploymentResponse>,
+  input: __S(1632, __c102, 0) as any as S.Schema<DeleteDeploymentRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<DeleteDeploymentResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4378,8 +4440,8 @@ export const deleteDomain: API.OperationMethod<
   DeleteDomainError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<DeleteDomainRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<DeleteDomainResponse>,
+  input: __S(1648, __c103, 0) as any as S.Schema<DeleteDomainRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<DeleteDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4395,8 +4457,8 @@ export const deleteDomainOwnership: API.OperationMethod<
   DeleteDomainOwnershipError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<DeleteDomainOwnershipRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<DeleteDomainOwnershipResponse>,
+  input: __S(1664, __c104, 0) as any as S.Schema<DeleteDomainOwnershipRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<DeleteDomainOwnershipResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4416,8 +4478,8 @@ export const deleteEnvironmentVariable: API.OperationMethod<
   DeleteEnvironmentVariableError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<DeleteEnvironmentVariableRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<DeleteEnvironmentVariableResponse>,
+  input: __S(1680, __c105, 0) as any as S.Schema<DeleteEnvironmentVariableRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<DeleteEnvironmentVariableResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4433,8 +4495,8 @@ export const deleteIntegration: API.OperationMethod<
   DeleteIntegrationError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<DeleteIntegrationRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<DeleteIntegrationResponse>,
+  input: __S(1696, __c106, 0) as any as S.Schema<DeleteIntegrationRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<DeleteIntegrationResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4455,8 +4517,8 @@ export const deleteProject: API.OperationMethod<
   DeleteProjectError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<DeleteProjectRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<DeleteProjectResponse>,
+  input: __S(1712, __c107, 0) as any as S.Schema<DeleteProjectRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<DeleteProjectResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4472,8 +4534,8 @@ export const deleteProjectBranchAlchemyStateLease: API.OperationMethod<
   DeleteProjectBranchAlchemyStateLeaseError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateLeaseRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateLeaseResponse>,
+  input: __S(1728, __c108, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateLeaseRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateLeaseResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4493,8 +4555,8 @@ export const deleteProjectBranchAlchemyStateStateStack: API.OperationMethod<
   DeleteProjectBranchAlchemyStateStateStackError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateStateStackRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateStateStackResponse>,
+  input: __S(1744, __c109, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateStateStackRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateStateStackResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4515,13 +4577,13 @@ export const deleteProjectBranchAlchemyStateStateStackStageResource: API.Operati
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1584,
-    __c99,
+    1760,
+    __c110,
     0,
   ) as any as S.Schema<DeleteProjectBranchAlchemyStateStateStackStageResourceRequest>,
   output: __S(
-    720,
-    __c45,
+    896,
+    __c56,
     0,
   ) as any as S.Schema<DeleteProjectBranchAlchemyStateStateStackStageResourceResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
@@ -4539,8 +4601,8 @@ export const deleteService: API.OperationMethod<
   DeleteServiceError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<DeleteServiceRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<DeleteServiceResponse>,
+  input: __S(1776, __c111, 0) as any as S.Schema<DeleteServiceRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<DeleteServiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4556,8 +4618,8 @@ export const deleteSourceRepository: API.OperationMethod<
   DeleteSourceRepositoryError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<DeleteSourceRepositoryRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<DeleteSourceRepositoryResponse>,
+  input: __S(1792, __c112, 0) as any as S.Schema<DeleteSourceRepositoryRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<DeleteSourceRepositoryResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4573,8 +4635,8 @@ export const deleteUrl: API.OperationMethod<
   DeleteUrlError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<DeleteUrlRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<DeleteUrlResponse>,
+  input: __S(1808, __c113, 0) as any as S.Schema<DeleteUrlRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<DeleteUrlResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4594,8 +4656,8 @@ export const deleteWorkspaceIntegration: API.OperationMethod<
   DeleteWorkspaceIntegrationError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<DeleteWorkspaceIntegrationRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<DeleteWorkspaceIntegrationResponse>,
+  input: __S(1824, __c114, 0) as any as S.Schema<DeleteWorkspaceIntegrationRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<DeleteWorkspaceIntegrationResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4611,8 +4673,8 @@ export const deleteWorkspaceServiceToken: API.OperationMethod<
   DeleteWorkspaceServiceTokenError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<DeleteWorkspaceServiceTokenRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<DeleteWorkspaceServiceTokenResponse>,
+  input: __S(1840, __c115, 0) as any as S.Schema<DeleteWorkspaceServiceTokenRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<DeleteWorkspaceServiceTokenResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4628,8 +4690,8 @@ export const getAgentApproval: API.OperationMethod<
   GetAgentApprovalError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<GetAgentApprovalRequest>,
-  output: __S(1681, __c105, 1) as any as S.Schema<GetAgentApprovalResponse>,
+  input: __S(1856, __c116, 0) as any as S.Schema<GetAgentApprovalRequest>,
+  output: __S(1857, __c116, 1) as any as S.Schema<GetAgentApprovalResponse>,
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4645,8 +4707,8 @@ export const getBranch: API.OperationMethod<
   GetBranchError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<GetBranchRequest>,
-  output: __S(944, __c59, 0) as any as S.Schema<GetBranchResponse>,
+  input: __S(1872, __c117, 0) as any as S.Schema<GetBranchRequest>,
+  output: __S(1120, __c70, 0) as any as S.Schema<GetBranchResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4662,8 +4724,8 @@ export const getBucket: API.OperationMethod<
   GetBucketError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<GetBucketRequest>,
-  output: __S(2176, __c136, 0) as any as S.Schema<GetBucketResponse>,
+  input: __S(1888, __c118, 0) as any as S.Schema<GetBucketRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<GetBucketResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4679,8 +4741,8 @@ export const getBucketKeys: API.OperationMethod<
   GetBucketKeysError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<GetBucketKeysRequest>,
-  output: __S(1731, __c108, 3) as any as S.Schema<GetBucketKeysResponse>,
+  input: __S(1904, __c119, 0) as any as S.Schema<GetBucketKeysRequest>,
+  output: __S(1907, __c119, 3) as any as S.Schema<GetBucketKeysResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4696,8 +4758,8 @@ export const getBuckets: API.OperationMethod<
   GetBucketsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<GetBucketsRequest>,
-  output: __S(1762, __c110, 2) as any as S.Schema<GetBucketsResponse>,
+  input: __S(1936, __c121, 0) as any as S.Schema<GetBucketsRequest>,
+  output: __S(1938, __c121, 2) as any as S.Schema<GetBucketsResponse>,
   errors: [BadRequest, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4713,8 +4775,8 @@ export const getBuild: API.OperationMethod<
   GetBuildError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<GetBuildRequest>,
-  output: __S(1780, __c111, 4) as any as S.Schema<GetBuildResponse>,
+  input: __S(1952, __c122, 0) as any as S.Schema<GetBuildRequest>,
+  output: __S(1956, __c122, 4) as any as S.Schema<GetBuildResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4730,8 +4792,8 @@ export const getBuilds: API.OperationMethod<
   GetBuildsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<GetBuildsRequest>,
-  output: __S(1794, __c112, 2) as any as S.Schema<GetBuildsResponse>,
+  input: __S(1968, __c123, 0) as any as S.Schema<GetBuildsRequest>,
+  output: __S(1970, __c123, 2) as any as S.Schema<GetBuildsResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4747,8 +4809,8 @@ export const getConnection: API.OperationMethod<
   GetConnectionError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<GetConnectionRequest>,
-  output: __S(1809, __c113, 1) as any as S.Schema<GetConnectionResponse>,
+  input: __S(1984, __c124, 0) as any as S.Schema<GetConnectionRequest>,
+  output: __S(1985, __c124, 1) as any as S.Schema<GetConnectionResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4764,8 +4826,8 @@ export const getConnections: API.OperationMethod<
   GetConnectionsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<GetConnectionsRequest>,
-  output: __S(1840, __c115, 0) as any as S.Schema<GetConnectionsResponse>,
+  input: __S(2000, __c125, 0) as any as S.Schema<GetConnectionsRequest>,
+  output: __S(2016, __c126, 0) as any as S.Schema<GetConnectionsResponse>,
   errors: [BadRequest, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4786,8 +4848,8 @@ export const getDatabase: API.OperationMethod<
   GetDatabaseError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<GetDatabaseRequest>,
-  output: __S(1859, __c116, 3) as any as S.Schema<GetDatabaseResponse>,
+  input: __S(2032, __c127, 0) as any as S.Schema<GetDatabaseRequest>,
+  output: __S(2035, __c127, 3) as any as S.Schema<GetDatabaseResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4803,8 +4865,8 @@ export const getDatabaseBackups: API.OperationMethod<
   GetDatabaseBackupsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<GetDatabaseBackupsRequest>,
-  output: __S(1877, __c117, 5) as any as S.Schema<GetDatabaseBackupsResponse>,
+  input: __S(2048, __c128, 0) as any as S.Schema<GetDatabaseBackupsRequest>,
+  output: __S(2053, __c128, 5) as any as S.Schema<GetDatabaseBackupsResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4820,8 +4882,8 @@ export const getDatabaseConnections: API.OperationMethod<
   GetDatabaseConnectionsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<GetDatabaseConnectionsRequest>,
-  output: __S(1840, __c115, 0) as any as S.Schema<GetDatabaseConnectionsResponse>,
+  input: __S(2064, __c129, 0) as any as S.Schema<GetDatabaseConnectionsRequest>,
+  output: __S(2016, __c126, 0) as any as S.Schema<GetDatabaseConnectionsResponse>,
   errors: [UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4837,8 +4899,8 @@ export const getDatabases: API.OperationMethod<
   GetDatabasesError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<GetDatabasesRequest>,
-  output: __S(1908, __c119, 4) as any as S.Schema<GetDatabasesResponse>,
+  input: __S(2080, __c130, 0) as any as S.Schema<GetDatabasesRequest>,
+  output: __S(2084, __c130, 4) as any as S.Schema<GetDatabasesResponse>,
   errors: [BadRequest, Forbidden, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4854,8 +4916,8 @@ export const getDatabaseUsage: API.OperationMethod<
   GetDatabaseUsageError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<GetDatabaseUsageRequest>,
-  output: __S(1940, __c121, 4) as any as S.Schema<GetDatabaseUsageResponse>,
+  input: __S(2096, __c131, 0) as any as S.Schema<GetDatabaseUsageRequest>,
+  output: __S(2100, __c131, 4) as any as S.Schema<GetDatabaseUsageResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4871,8 +4933,8 @@ export const getDeployment: API.OperationMethod<
   GetDeploymentError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<GetDeploymentRequest>,
-  output: __S(1956, __c122, 4) as any as S.Schema<GetDeploymentResponse>,
+  input: __S(2112, __c132, 0) as any as S.Schema<GetDeploymentRequest>,
+  output: __S(2116, __c132, 4) as any as S.Schema<GetDeploymentResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4888,8 +4950,8 @@ export const getDeploymentLogs: API.OperationMethod<
   GetDeploymentLogsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<GetDeploymentLogsRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<GetDeploymentLogsResponse>,
+  input: __S(2128, __c133, 0) as any as S.Schema<GetDeploymentLogsRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GetDeploymentLogsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4905,8 +4967,8 @@ export const getDomain: API.OperationMethod<
   GetDomainError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<GetDomainRequest>,
-  output: __S(832, __c52, 0) as any as S.Schema<GetDomainResponse>,
+  input: __S(2144, __c134, 0) as any as S.Schema<GetDomainRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<GetDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4922,8 +4984,8 @@ export const getDomainOwnership: API.OperationMethod<
   GetDomainOwnershipError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<GetDomainOwnershipRequest>,
-  output: __S(784, __c49, 0) as any as S.Schema<GetDomainOwnershipResponse>,
+  input: __S(2160, __c135, 0) as any as S.Schema<GetDomainOwnershipRequest>,
+  output: __S(960, __c60, 0) as any as S.Schema<GetDomainOwnershipResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4943,8 +5005,8 @@ export const getEnvironmentVariable: API.OperationMethod<
   GetEnvironmentVariableError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<GetEnvironmentVariableRequest>,
-  output: __S(864, __c54, 0) as any as S.Schema<GetEnvironmentVariableResponse>,
+  input: __S(2176, __c136, 0) as any as S.Schema<GetEnvironmentVariableRequest>,
+  output: __S(1040, __c65, 0) as any as S.Schema<GetEnvironmentVariableResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4964,8 +5026,8 @@ export const getEnvironmentVariables: API.OperationMethod<
   GetEnvironmentVariablesError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<GetEnvironmentVariablesRequest>,
-  output: __S(2034, __c127, 2) as any as S.Schema<GetEnvironmentVariablesResponse>,
+  input: __S(2192, __c137, 0) as any as S.Schema<GetEnvironmentVariablesRequest>,
+  output: __S(2194, __c137, 2) as any as S.Schema<GetEnvironmentVariablesResponse>,
   errors: [NotFound, BadRequest, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4981,8 +5043,8 @@ export const getIntegration: API.OperationMethod<
   GetIntegrationError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<GetIntegrationRequest>,
-  output: __S(2049, __c128, 1) as any as S.Schema<GetIntegrationResponse>,
+  input: __S(2208, __c138, 0) as any as S.Schema<GetIntegrationRequest>,
+  output: __S(2209, __c138, 1) as any as S.Schema<GetIntegrationResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4998,8 +5060,8 @@ export const getIntegrations: API.OperationMethod<
   GetIntegrationsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<GetIntegrationsRequest>,
-  output: __S(2113, __c132, 1) as any as S.Schema<GetIntegrationsResponse>,
+  input: __S(2256, __c141, 0) as any as S.Schema<GetIntegrationsRequest>,
+  output: __S(2273, __c142, 1) as any as S.Schema<GetIntegrationsResponse>,
   errors: [BadRequest, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5011,8 +5073,8 @@ export type GetMeError = PrismaOpError;
 /** Get current authenticated principal Returns the user, workspace, and credential represented by the current token. */
 export const getMe: API.OperationMethod<GetMeRequest, GetMeResponse, GetMeError, PrismaOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2128, __c133, 0) as any as S.Schema<GetMeRequest>,
-    output: __S(2132, __c133, 4) as any as S.Schema<GetMeResponse>,
+    input: __S(2288, __c143, 0) as any as S.Schema<GetMeRequest>,
+    output: __S(2292, __c143, 4) as any as S.Schema<GetMeResponse>,
     errors: [UnknownPrismaError],
     protocol: PrismaProtocol,
     retry: Retry.Retry,
@@ -5028,8 +5090,8 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(2224, __c139, 0) as any as S.Schema<GetProjectResponse>,
+  input: __S(2304, __c144, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(2320, __c145, 0) as any as S.Schema<GetProjectResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5049,8 +5111,8 @@ export const getProjectBranchAlchemyStateStateStacks: API.OperationMethod<
   GetProjectBranchAlchemyStateStateStacksError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<GetProjectBranchAlchemyStateStateStacksRequest>,
-  output: __S(2272, __c142, 0) as any as S.Schema<GetProjectBranchAlchemyStateStateStacksResponse>,
+  input: __S(2352, __c147, 0) as any as S.Schema<GetProjectBranchAlchemyStateStateStacksRequest>,
+  output: __S(2368, __c148, 0) as any as S.Schema<GetProjectBranchAlchemyStateStateStacksResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5071,13 +5133,13 @@ export const getProjectBranchAlchemyStateStateStackStageOutput: API.OperationMet
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2288,
-    __c143,
+    2384,
+    __c149,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageOutputRequest>,
   output: __S(
-    2304,
-    __c144,
+    2400,
+    __c150,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageOutputResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
@@ -5100,13 +5162,13 @@ export const getProjectBranchAlchemyStateStateStackStageReplacedResources: API.O
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2320,
-    __c145,
+    2416,
+    __c151,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageReplacedResourcesRequest>,
   output: __S(
-    2322,
-    __c145,
+    2418,
+    __c151,
     2,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageReplacedResourcesResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
@@ -5129,13 +5191,13 @@ export const getProjectBranchAlchemyStateStateStackStageResource: API.OperationM
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2336,
-    __c146,
+    2432,
+    __c152,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageResourceRequest>,
   output: __S(
-    2304,
-    __c144,
+    2400,
+    __c150,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageResourceResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
@@ -5158,13 +5220,13 @@ export const getProjectBranchAlchemyStateStateStackStageResources: API.Operation
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2352,
-    __c147,
+    2448,
+    __c153,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageResourcesRequest>,
   output: __S(
-    2272,
-    __c142,
+    2368,
+    __c148,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageResourcesResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
@@ -5187,13 +5249,13 @@ export const getProjectBranchAlchemyStateStateStackStages: API.OperationMethod<
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2368,
-    __c148,
+    2464,
+    __c154,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStagesRequest>,
   output: __S(
-    2272,
-    __c142,
+    2368,
+    __c148,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStagesResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
@@ -5211,8 +5273,8 @@ export const getProjectBranchAlchemyStateVersion: API.OperationMethod<
   GetProjectBranchAlchemyStateVersionError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<GetProjectBranchAlchemyStateVersionRequest>,
-  output: __S(2385, __c149, 1) as any as S.Schema<GetProjectBranchAlchemyStateVersionResponse>,
+  input: __S(2480, __c155, 0) as any as S.Schema<GetProjectBranchAlchemyStateVersionRequest>,
+  output: __S(2481, __c155, 1) as any as S.Schema<GetProjectBranchAlchemyStateVersionResponse>,
   errors: [UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5228,8 +5290,8 @@ export const getProjectBranchApplicationTopology: API.OperationMethod<
   GetProjectBranchApplicationTopologyError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<GetProjectBranchApplicationTopologyRequest>,
-  output: __S(2424, __c151, 8) as any as S.Schema<GetProjectBranchApplicationTopologyResponse>,
+  input: __S(2496, __c156, 0) as any as S.Schema<GetProjectBranchApplicationTopologyRequest>,
+  output: __S(2520, __c157, 8) as any as S.Schema<GetProjectBranchApplicationTopologyResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5245,8 +5307,8 @@ export const getProjectBranches: API.OperationMethod<
   GetProjectBranchesError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<GetProjectBranchesRequest>,
-  output: __S(2434, __c152, 2) as any as S.Schema<GetProjectBranchesResponse>,
+  input: __S(2528, __c158, 0) as any as S.Schema<GetProjectBranchesRequest>,
+  output: __S(2530, __c158, 2) as any as S.Schema<GetProjectBranchesResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5262,8 +5324,8 @@ export const getProjectBranchUrls: API.OperationMethod<
   GetProjectBranchUrlsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<GetProjectBranchUrlsRequest>,
-  output: __S(2497, __c156, 1) as any as S.Schema<GetProjectBranchUrlsResponse>,
+  input: __S(2544, __c159, 0) as any as S.Schema<GetProjectBranchUrlsRequest>,
+  output: __S(2577, __c161, 1) as any as S.Schema<GetProjectBranchUrlsResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5279,8 +5341,8 @@ export const getProjectDatabases: API.OperationMethod<
   GetProjectDatabasesError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<GetProjectDatabasesRequest>,
-  output: __S(2516, __c157, 4) as any as S.Schema<GetProjectDatabasesResponse>,
+  input: __S(2592, __c162, 0) as any as S.Schema<GetProjectDatabasesRequest>,
+  output: __S(2596, __c162, 4) as any as S.Schema<GetProjectDatabasesResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5296,8 +5358,8 @@ export const getProjects: API.OperationMethod<
   GetProjectsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<GetProjectsRequest>,
-  output: __S(2530, __c158, 2) as any as S.Schema<GetProjectsResponse>,
+  input: __S(2608, __c163, 0) as any as S.Schema<GetProjectsRequest>,
+  output: __S(2610, __c163, 2) as any as S.Schema<GetProjectsResponse>,
   errors: [BadRequest, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5313,8 +5375,8 @@ export const getRegions: API.OperationMethod<
   GetRegionsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<GetRegionsRequest>,
-  output: __S(2547, __c159, 3) as any as S.Schema<GetRegionsResponse>,
+  input: __S(2624, __c164, 0) as any as S.Schema<GetRegionsRequest>,
+  output: __S(2627, __c164, 3) as any as S.Schema<GetRegionsResponse>,
   errors: [BadRequest, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5330,8 +5392,8 @@ export const getRegionsAccelerate: API.OperationMethod<
   GetRegionsAccelerateError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<GetRegionsAccelerateRequest>,
-  output: __S(2563, __c160, 3) as any as S.Schema<GetRegionsAccelerateResponse>,
+  input: __S(2640, __c165, 0) as any as S.Schema<GetRegionsAccelerateRequest>,
+  output: __S(2643, __c165, 3) as any as S.Schema<GetRegionsAccelerateResponse>,
   errors: [UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5347,8 +5409,8 @@ export const getRegionsPostgres: API.OperationMethod<
   GetRegionsPostgresError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<GetRegionsPostgresRequest>,
-  output: __S(2579, __c161, 3) as any as S.Schema<GetRegionsPostgresResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<GetRegionsPostgresRequest>,
+  output: __S(3, __c0, 3) as any as S.Schema<GetRegionsPostgresResponse>,
   errors: [UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5368,8 +5430,8 @@ export const getScmInstallationRepositories: API.OperationMethod<
   GetScmInstallationRepositoriesError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c162, 0) as any as S.Schema<GetScmInstallationRepositoriesRequest>,
-  output: __S(2595, __c162, 3) as any as S.Schema<GetScmInstallationRepositoriesResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<GetScmInstallationRepositoriesRequest>,
+  output: __S(19, __c1, 3) as any as S.Schema<GetScmInstallationRepositoriesResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5385,8 +5447,8 @@ export const getScmInstallations: API.OperationMethod<
   GetScmInstallationsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<GetScmInstallationsRequest>,
-  output: __S(2611, __c163, 3) as any as S.Schema<GetScmInstallationsResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<GetScmInstallationsRequest>,
+  output: __S(35, __c2, 3) as any as S.Schema<GetScmInstallationsResponse>,
   errors: [BadRequest, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5402,8 +5464,8 @@ export const getService: API.OperationMethod<
   GetServiceError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<GetServiceRequest>,
-  output: __S(1088, __c68, 0) as any as S.Schema<GetServiceResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<GetServiceRequest>,
+  output: __S(1264, __c79, 0) as any as S.Schema<GetServiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5419,8 +5481,8 @@ export const getServiceDeployments: API.OperationMethod<
   GetServiceDeploymentsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<GetServiceDeploymentsRequest>,
-  output: __S(2643, __c165, 3) as any as S.Schema<GetServiceDeploymentsResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<GetServiceDeploymentsRequest>,
+  output: __S(67, __c4, 3) as any as S.Schema<GetServiceDeploymentsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5436,8 +5498,8 @@ export const getServiceDomains: API.OperationMethod<
   GetServiceDomainsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<GetServiceDomainsRequest>,
-  output: __S(50, __c3, 2) as any as S.Schema<GetServiceDomainsResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetServiceDomainsRequest>,
+  output: __S(82, __c5, 2) as any as S.Schema<GetServiceDomainsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5458,8 +5520,8 @@ export const getServices: API.OperationMethod<
   GetServicesError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetServicesRequest>,
-  output: __S(66, __c4, 2) as any as S.Schema<GetServicesResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<GetServicesRequest>,
+  output: __S(98, __c6, 2) as any as S.Schema<GetServicesResponse>,
   errors: [BadRequest, NotFound, Forbidden, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5475,8 +5537,8 @@ export const getServiceUrls: API.OperationMethod<
   GetServiceUrlsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<GetServiceUrlsRequest>,
-  output: __S(2497, __c156, 1) as any as S.Schema<GetServiceUrlsResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetServiceUrlsRequest>,
+  output: __S(2577, __c161, 1) as any as S.Schema<GetServiceUrlsResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5492,8 +5554,8 @@ export const getSourceRepositories: API.OperationMethod<
   GetSourceRepositoriesError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetSourceRepositoriesRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<GetSourceRepositoriesResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetSourceRepositoriesRequest>,
+  output: __S(130, __c8, 2) as any as S.Schema<GetSourceRepositoriesResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5509,8 +5571,8 @@ export const getSourceRepository: API.OperationMethod<
   GetSourceRepositoryError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetSourceRepositoryRequest>,
-  output: __S(1264, __c79, 0) as any as S.Schema<GetSourceRepositoryResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetSourceRepositoryRequest>,
+  output: __S(1440, __c90, 0) as any as S.Schema<GetSourceRepositoryResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5526,8 +5588,8 @@ export const getUrl: API.OperationMethod<
   GetUrlError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetUrlRequest>,
-  output: __S(1200, __c75, 0) as any as S.Schema<GetUrlResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetUrlRequest>,
+  output: __S(1376, __c86, 0) as any as S.Schema<GetUrlResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5543,8 +5605,8 @@ export const getWorkspace: API.OperationMethod<
   GetWorkspaceError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetWorkspaceRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<GetWorkspaceResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetWorkspaceRequest>,
+  output: __S(1488, __c93, 0) as any as S.Schema<GetWorkspaceResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5564,8 +5626,8 @@ export const getWorkspaceDomainOwnerships: API.OperationMethod<
   GetWorkspaceDomainOwnershipsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetWorkspaceDomainOwnershipsRequest>,
-  output: __S(162, __c10, 2) as any as S.Schema<GetWorkspaceDomainOwnershipsResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetWorkspaceDomainOwnershipsRequest>,
+  output: __S(194, __c12, 2) as any as S.Schema<GetWorkspaceDomainOwnershipsResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5585,8 +5647,8 @@ export const getWorkspaceDomainOwnershipsVerification: API.OperationMethod<
   GetWorkspaceDomainOwnershipsVerificationError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetWorkspaceDomainOwnershipsVerificationRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<GetWorkspaceDomainOwnershipsVerificationResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetWorkspaceDomainOwnershipsVerificationRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<GetWorkspaceDomainOwnershipsVerificationResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5606,8 +5668,8 @@ export const getWorkspaceIntegrations: API.OperationMethod<
   GetWorkspaceIntegrationsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetWorkspaceIntegrationsRequest>,
-  output: __S(2113, __c132, 1) as any as S.Schema<GetWorkspaceIntegrationsResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetWorkspaceIntegrationsRequest>,
+  output: __S(2273, __c142, 1) as any as S.Schema<GetWorkspaceIntegrationsResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5623,8 +5685,8 @@ export const getWorkspaces: API.OperationMethod<
   GetWorkspacesError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetWorkspacesRequest>,
-  output: __S(258, __c16, 2) as any as S.Schema<GetWorkspacesResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetWorkspacesRequest>,
+  output: __S(242, __c15, 2) as any as S.Schema<GetWorkspacesResponse>,
   errors: [BadRequest, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5640,8 +5702,8 @@ export const getWorkspaceServiceTokens: API.OperationMethod<
   GetWorkspaceServiceTokensError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetWorkspaceServiceTokensRequest>,
-  output: __S(275, __c17, 3) as any as S.Schema<GetWorkspaceServiceTokensResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetWorkspaceServiceTokensRequest>,
+  output: __S(259, __c16, 3) as any as S.Schema<GetWorkspaceServiceTokensResponse>,
   errors: [BadRequest, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5657,8 +5719,8 @@ export const getWorkspaceSubscription: API.OperationMethod<
   GetWorkspaceSubscriptionError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<GetWorkspaceSubscriptionRequest>,
-  output: __S(290, __c18, 2) as any as S.Schema<GetWorkspaceSubscriptionResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetWorkspaceSubscriptionRequest>,
+  output: __S(274, __c17, 2) as any as S.Schema<GetWorkspaceSubscriptionResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5674,8 +5736,8 @@ export const putBuildResource: API.OperationMethod<
   PutBuildResourceError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<PutBuildResourceRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<PutBuildResourceResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<PutBuildResourceRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<PutBuildResourceResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5696,13 +5758,13 @@ export const putProjectBranchAlchemyStateStateStackStageOutput: API.OperationMet
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    320,
-    __c20,
+    304,
+    __c19,
     0,
   ) as any as S.Schema<PutProjectBranchAlchemyStateStateStackStageOutputRequest>,
   output: __S(
-    2304,
-    __c144,
+    2400,
+    __c150,
     0,
   ) as any as S.Schema<PutProjectBranchAlchemyStateStateStackStageOutputResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
@@ -5730,8 +5792,8 @@ export const putProjectBranchAlchemyStateStateStackStageResource: API.OperationM
     0,
   ) as any as S.Schema<PutProjectBranchAlchemyStateStateStackStageResourceRequest>,
   output: __S(
-    2304,
-    __c144,
+    2400,
+    __c150,
     0,
   ) as any as S.Schema<PutProjectBranchAlchemyStateStateStackStageResourceResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
@@ -5754,7 +5816,7 @@ export const putProjectBranchApplicationTopology: API.OperationMethod<
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<PutProjectBranchApplicationTopologyRequest>,
-  output: __S(2424, __c151, 8) as any as S.Schema<PutProjectBranchApplicationTopologyResponse>,
+  output: __S(2520, __c157, 8) as any as S.Schema<PutProjectBranchApplicationTopologyResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5771,7 +5833,7 @@ export const updateBranch: API.OperationMethod<
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<UpdateBranchRequest>,
-  output: __S(944, __c59, 0) as any as S.Schema<UpdateBranchResponse>,
+  output: __S(1120, __c70, 0) as any as S.Schema<UpdateBranchResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5793,7 +5855,7 @@ export const updateBucket: API.OperationMethod<
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<UpdateBucketRequest>,
-  output: __S(2176, __c136, 0) as any as S.Schema<UpdateBucketResponse>,
+  output: __S(528, __c33, 0) as any as S.Schema<UpdateBucketResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5810,7 +5872,7 @@ export const updateBuild: API.OperationMethod<
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<UpdateBuildRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<UpdateBuildResponse>,
+  output: __S(608, __c38, 0) as any as S.Schema<UpdateBuildResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5832,8 +5894,8 @@ export const updateDatabase: API.OperationMethod<
   UpdateDatabaseError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<UpdateDatabaseRequest>,
-  output: __S(435, __c27, 3) as any as S.Schema<UpdateDatabaseResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<UpdateDatabaseRequest>,
+  output: __S(419, __c26, 3) as any as S.Schema<UpdateDatabaseResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5853,8 +5915,8 @@ export const updateEnvironmentVariable: API.OperationMethod<
   UpdateEnvironmentVariableError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<UpdateEnvironmentVariableRequest>,
-  output: __S(864, __c54, 0) as any as S.Schema<UpdateEnvironmentVariableResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<UpdateEnvironmentVariableRequest>,
+  output: __S(1040, __c65, 0) as any as S.Schema<UpdateEnvironmentVariableResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5875,8 +5937,8 @@ export const updateProject: API.OperationMethod<
   UpdateProjectError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(465, __c29, 1) as any as S.Schema<UpdateProjectRequest>,
-  output: __S(2224, __c139, 0) as any as S.Schema<UpdateProjectResponse>,
+  input: __S(449, __c28, 1) as any as S.Schema<UpdateProjectRequest>,
+  output: __S(2320, __c145, 0) as any as S.Schema<UpdateProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5892,8 +5954,8 @@ export const updateProjectBranchAlchemyStateLease: API.OperationMethod<
   UpdateProjectBranchAlchemyStateLeaseError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<UpdateProjectBranchAlchemyStateLeaseRequest>,
-  output: __S(993, __c62, 1) as any as S.Schema<UpdateProjectBranchAlchemyStateLeaseResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<UpdateProjectBranchAlchemyStateLeaseRequest>,
+  output: __S(1169, __c73, 1) as any as S.Schema<UpdateProjectBranchAlchemyStateLeaseResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5915,8 +5977,8 @@ export const updateService: API.OperationMethod<
   UpdateServiceError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<UpdateServiceRequest>,
-  output: __S(1088, __c68, 0) as any as S.Schema<UpdateServiceResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<UpdateServiceRequest>,
+  output: __S(1264, __c79, 0) as any as S.Schema<UpdateServiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5924,7 +5986,16 @@ export const updateService: API.OperationMethod<
   span: "UpdateService",
 }));
 
-export type UpdateUrlError = BadRequest | NotFound | Conflict | UnprocessableEntity | PrismaOpError;
+export type UpdateUrlError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | RoutingUrlQuotaExceeded
+  | RoutingUrlLogicalIdTaken
+  | RoutingUrlInvalidHostname
+  | RoutingUrlServiceOnAnotherBranch
+  | PrismaOpError;
 /** Update a RoutingUrl U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Changes the hostname, the service or the `logicalId`. Nothing is refused for want of a verified domain ownership. A request that changes none of them changes nothing. A hostname change removes the old hostname's custom domain and makes the RoutingUrl `pending`. A service change keeps its status, and the hostname moves to the new service. A new hostname, or a service in another region, is registered with Foundry as for a create, and that registration counts against the workspace's hourly limit of new certificates. */
 export const updateUrl: API.OperationMethod<
   UpdateUrlRequest,
@@ -5932,9 +6003,19 @@ export const updateUrl: API.OperationMethod<
   UpdateUrlError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<UpdateUrlRequest>,
-  output: __S(1200, __c75, 0) as any as S.Schema<UpdateUrlResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  input: __S(560, __c35, 0) as any as S.Schema<UpdateUrlRequest>,
+  output: __S(1376, __c86, 0) as any as S.Schema<UpdateUrlResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    Conflict,
+    UnprocessableEntity,
+    RoutingUrlQuotaExceeded,
+    RoutingUrlLogicalIdTaken,
+    RoutingUrlInvalidHostname,
+    RoutingUrlServiceOnAnotherBranch,
+    UnknownPrismaError,
+  ],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5946,26 +6027,25 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          provider: S.String,
-          repositoryId: S.String,
-          runId: S.String,
-          runAttempt: S.Number,
-        }),
-      ).annotate({ identifier: "CreateBuildRequestRunIdentity" });
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/regions/postgres", code: 200 })),
+      ).annotate({ identifier: "GetRegionsPostgresRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          source: S.String,
-          commitSha: S.String,
-          branchName: S.String,
-          runIdentity: S.optional(__S(0, __c0, 0)),
-          externalLogUrl: S.optional(S.String),
-          projectId: S.optional(S.String),
-          branchId: S.optional(S.String),
-          applicationTopologyContentHash: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/builds", code: 200 })),
-      ).annotate({ identifier: "CreateBuildRequest" });
+          id: S.String,
+          type: S.String,
+          name: S.String,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "GetRegionsPostgresResponseDataItem" });
+    case 2:
+      return S.Array(__S(1, __c0, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(2, __c0, 2),
+        }),
+      ).annotate({ identifier: "GetRegionsPostgresResponse" });
   }
 }
 function __c1(j: number): any {
@@ -5973,9 +6053,36 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(32, __c2, 0),
+          installationId: S.String.pipe(T.Label()),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/scm-installations/{installationId}/repositories",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetScmInstallationRepositoriesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          type: S.String,
+          fullName: S.String,
+          defaultBranch: S.String,
+          isPrivate: S.Boolean,
         }),
-      ).annotate({ identifier: "CreateBuildResponse" });
+      ).annotate({ identifier: "GetScmInstallationRepositoriesResponseDataItem" });
+    case 2:
+      return S.Array(__S(17, __c1, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(18, __c1, 2),
+          pagination: __S(1920, __c120, 0),
+        }),
+      ).annotate({ identifier: "GetScmInstallationRepositoriesResponse" });
   }
 }
 function __c2(j: number): any {
@@ -5983,25 +6090,38 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          workspaceId: S.String.pipe(T.Query()),
+          repository: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/scm-installations", code: 200 })),
+      ).annotate({ identifier: "GetScmInstallationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String,
-          source: S.String,
-          state: S.String,
-          phase: S.NullOr(S.String),
-          commitSha: S.String,
-          branchName: S.String,
-          gitRepoId: S.NullOr(S.String),
-          projectId: S.NullOr(S.String),
-          branchId: S.NullOr(S.String),
-          externalLogUrl: S.NullOr(S.String),
-          deployedUrl: S.NullOr(S.String),
-          applicationTopologyContentHash: S.NullOr(S.String),
-          errorMessage: S.NullOr(S.String),
-          failingStep: S.NullOr(S.String),
+          type: S.String,
+          url: S.String,
+          provider: S.String,
+          installationId: S.Number,
+          accountId: S.Number,
+          accountLogin: S.String,
+          accountType: S.String,
+          suspended: S.Boolean,
           createdAt: S.String,
-          startedAt: S.NullOr(S.String),
-          finishedAt: S.NullOr(S.String),
+          updatedAt: S.String,
         }),
-      ).annotate({ identifier: "CreateBuildResponseData" });
+      ).annotate({ identifier: "GetScmInstallationsResponseDataItem" });
+    case 2:
+      return S.Array(__S(33, __c2, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(34, __c2, 2),
+          pagination: __S(1920, __c120, 0),
+          hint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetScmInstallationsResponse" });
   }
 }
 function __c3(j: number): any {
@@ -6010,20 +6130,62 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           serviceId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/services/{serviceId}", code: 200 })),
+      ).annotate({ identifier: "GetServiceRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceId: S.String.pipe(T.Label()),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/services/{serviceId}/deployments", code: 200 })),
+      ).annotate({ identifier: "GetServiceDeploymentsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          url: S.String,
+          serviceId: S.String,
+          foundryVersionId: S.String,
+          createdAt: S.String,
+        }),
+      ).annotate({ identifier: "GetServiceDeploymentsResponseDataItem" });
+    case 2:
+      return S.Array(__S(65, __c4, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(66, __c4, 2),
+          pagination: __S(1920, __c120, 0),
+        }),
+      ).annotate({ identifier: "GetServiceDeploymentsResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceId: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/v1/services/{serviceId}/domains", code: 200 })),
       ).annotate({ identifier: "GetServiceDomainsRequest" });
     case 1:
-      return S.Array(__S(818, __c51, 2));
+      return S.Array(__S(994, __c62, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(49, __c3, 1),
-          pagination: __S(2480, __c155, 0),
+          data: __S(81, __c5, 1),
+          pagination: __S(2560, __c160, 0),
         }),
       ).annotate({ identifier: "GetServiceDomainsResponse" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6037,17 +6199,17 @@ function __c4(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/services", code: 200 })),
       ).annotate({ identifier: "GetServicesRequest" });
     case 1:
-      return S.Array(__S(1072, __c67, 0));
+      return S.Array(__S(1248, __c78, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(65, __c4, 1),
-          pagination: __S(1744, __c109, 0),
+          data: __S(97, __c6, 1),
+          pagination: __S(1920, __c120, 0),
         }),
       ).annotate({ identifier: "GetServicesResponse" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6057,7 +6219,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetServiceUrlsRequest" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6068,17 +6230,17 @@ function __c6(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/source-repositories", code: 200 })),
       ).annotate({ identifier: "GetSourceRepositoriesRequest" });
     case 1:
-      return S.Array(__S(1248, __c78, 0));
+      return S.Array(__S(1424, __c89, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(97, __c6, 1),
-          pagination: __S(1744, __c109, 0),
+          data: __S(129, __c8, 1),
+          pagination: __S(1920, __c120, 0),
         }),
       ).annotate({ identifier: "GetSourceRepositoriesResponse" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6088,7 +6250,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetSourceRepositoryRequest" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6098,7 +6260,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetUrlRequest" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6108,7 +6270,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetWorkspaceRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6126,17 +6288,17 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "GetWorkspaceDomainOwnershipsRequest" });
     case 1:
-      return S.Array(__S(752, __c47, 0));
+      return S.Array(__S(928, __c58, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(161, __c10, 1),
-          pagination: __S(1744, __c109, 0),
+          data: __S(193, __c12, 1),
+          pagination: __S(1920, __c120, 0),
         }),
       ).annotate({ identifier: "GetWorkspaceDomainOwnershipsResponse" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6154,12 +6316,12 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(768, __c48, 0),
+          data: __S(944, __c59, 0),
         }),
       ).annotate({ identifier: "GetWorkspaceDomainOwnershipsVerificationResponse" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6173,74 +6335,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetWorkspaceIntegrationsRequest" });
   }
 }
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          databaseId: S.String,
-          name: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v1/connections", code: 200 })),
-      ).annotate({ identifier: "CreateConnectionRequest" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          host: S.String,
-          pass: S.String,
-          user: S.String,
-        }),
-      ).annotate({ identifier: "CreateConnectionResponseDataDirectConnection" });
-  }
-}
 function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          host: S.String,
-          port: S.Number,
-          connectionString: S.String.pipe(T.SensitiveValue({})),
-        }),
-      ).annotate({ identifier: "CreateConnectionResponseDataEndpointsDirect" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          direct: S.optional(__S(240, __c15, 0)),
-          pooled: S.optional(__S(240, __c15, 0)),
-          accelerate: S.optional(__S(240, __c15, 0)),
-        }),
-      ).annotate({ identifier: "CreateConnectionResponseDataEndpoints" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          url: S.String,
-          name: S.String,
-          createdAt: S.String,
-          kind: S.String,
-          endpoints: __S(241, __c15, 1),
-          connectionString: S.String.pipe(T.SensitiveValue({})),
-          directConnection: S.optional(S.NullOr(__S(224, __c14, 0))),
-          database: __S(2160, __c135, 0),
-          host: S.NullOr(S.String),
-          pass: S.NullOr(S.String),
-          user: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "CreateConnectionResponseData" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(242, __c15, 2),
-        }),
-      ).annotate({ identifier: "CreateConnectionResponse" });
-  }
-}
-function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6250,17 +6345,17 @@ function __c16(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/workspaces", code: 200 })),
       ).annotate({ identifier: "GetWorkspacesRequest" });
     case 1:
-      return S.Array(__S(1328, __c83, 0));
+      return S.Array(__S(1504, __c94, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(257, __c16, 1),
-          pagination: __S(1744, __c109, 0),
+          data: __S(241, __c15, 1),
+          pagination: __S(1920, __c120, 0),
         }),
       ).annotate({ identifier: "GetWorkspacesResponse" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6286,17 +6381,17 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "GetWorkspaceServiceTokensResponseDataItem" });
     case 2:
-      return S.Array(__S(273, __c17, 1));
+      return S.Array(__S(257, __c16, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(274, __c17, 2),
-          pagination: __S(1744, __c109, 0),
+          data: __S(258, __c16, 2),
+          pagination: __S(1920, __c120, 0),
         }),
       ).annotate({ identifier: "GetWorkspaceServiceTokensResponse" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6315,12 +6410,12 @@ function __c18(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(289, __c18, 1),
+          data: __S(273, __c17, 1),
         }),
       ).annotate({ identifier: "GetWorkspaceSubscriptionResponse" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6339,7 +6434,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "PutBuildResourceRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6356,6 +6451,33 @@ function __c20(j: number): any {
           }),
         ),
       ).annotate({ identifier: "PutProjectBranchAlchemyStateStateStackStageOutputRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          token: S.String,
+          expiresInSeconds: S.optional(S.Number),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/auth/github-actions/token", code: 200 })),
+      ).annotate({ identifier: "CreateAuthGithubActionsTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          value: S.String,
+          expiresAt: S.String,
+          workspaceId: S.String,
+        }),
+      ).annotate({ identifier: "CreateAuthGithubActionsTokenResponseData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(321, __c20, 1),
+        }),
+      ).annotate({ identifier: "CreateAuthGithubActionsTokenResponse" });
   }
 }
 function __c21(j: number): any {
@@ -6386,9 +6508,9 @@ function __c22(j: number): any {
           projectId: S.String.pipe(T.Label()),
           branchId: S.String.pipe(T.Label()),
           contentHash: S.optional(S.String),
-          nodes: __S(2417, __c151, 1),
-          ports: __S(2419, __c151, 3),
-          edges: __S(2422, __c151, 6),
+          nodes: __S(2513, __c157, 1),
+          ports: __S(2515, __c157, 3),
+          edges: __S(2518, __c157, 6),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6448,16 +6570,6 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/connections/{id}/rotate", code: 200 })),
-      ).annotate({ identifier: "CreateConnectionRotateRequest" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           databaseId: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           branchId: S.optional(S.NullOr(S.String)),
@@ -6466,7 +6578,7 @@ function __c27(j: number): any {
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/databases/{databaseId}", code: 200 })),
       ).annotate({ identifier: "UpdateDatabaseRequest" });
     case 1:
-      return S.suspend(() => S.Union([__S(592, __c37, 0), __S(560, __c35, 0), __S(593, __c37, 1)]));
+      return S.suspend(() => S.Union([__S(768, __c48, 0), __S(736, __c46, 0), __S(769, __c48, 1)]));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6478,10 +6590,10 @@ function __c27(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(672, __c42, 0),
-          project: __S(2160, __c135, 0),
-          region: S.NullOr(__S(544, __c34, 0)),
-          source: S.NullOr(__S(433, __c27, 1)),
+          connections: __S(848, __c53, 0),
+          project: __S(512, __c32, 0),
+          region: S.NullOr(__S(720, __c45, 0)),
+          source: S.NullOr(__S(417, __c26, 1)),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
         }),
@@ -6489,12 +6601,12 @@ function __c27(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(434, __c27, 2),
+          data: __S(418, __c26, 2),
         }),
       ).annotate({ identifier: "UpdateDatabaseResponse" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6507,7 +6619,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "UpdateEnvironmentVariableRequest" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -6516,12 +6628,12 @@ function __c29(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          settings: S.optional(__S(464, __c29, 0)),
+          settings: S.optional(__S(448, __c28, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/projects/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateProjectRequest" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6539,7 +6651,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "UpdateProjectBranchAlchemyStateLeaseRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6553,7 +6665,62 @@ function __c31(j: number): any {
       ).annotate({ identifier: "UpdateServiceRequest" });
   }
 }
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String,
+          name: S.optional(S.String),
+          branchId: S.optional(S.String),
+          branchGitName: S.optional(S.String),
+          logicalId: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/buckets", code: 200 })),
+      ).annotate({ identifier: "CreateBucketRequest" });
+  }
+}
 function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          url: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "CreateBucketResponseDataProject" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(544, __c34, 0),
+        }),
+      ).annotate({ identifier: "CreateBucketResponse" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          url: S.String,
+          name: S.String,
+          providerName: S.String,
+          status: S.String,
+          createdAt: S.String,
+          project: __S(512, __c32, 0),
+          branchId: S.NullOr(S.String),
+          logicalId: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "CreateBucketResponseData" });
+  }
+}
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6567,10 +6734,182 @@ function __c32(j: number): any {
       ).annotate({ identifier: "UpdateUrlRequest" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Union([__S(592, __c37, 0), __S(560, __c35, 0), __S(593, __c37, 1)]));
+      return S.suspend(() =>
+        S.Struct({
+          bucketId: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          role: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v1/buckets/{bucketId}/keys", code: 200 })),
+      ).annotate({ identifier: "CreateBucketKeyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          name: S.String,
+          valueHint: S.String,
+          role: S.String,
+          createdAt: S.String,
+          secretAccessKey: S.String.pipe(T.SensitiveValue({})),
+          accessKeyId: S.String.pipe(T.SensitiveValue({})),
+          endpoint: S.String,
+          bucketName: S.String,
+        }),
+      ).annotate({ identifier: "CreateBucketKeyResponseData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(577, __c36, 1),
+        }),
+      ).annotate({ identifier: "CreateBucketKeyResponse" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          provider: S.String,
+          repositoryId: S.String,
+          runId: S.String,
+          runAttempt: S.Number,
+        }),
+      ).annotate({ identifier: "CreateBuildRequestRunIdentity" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          source: S.String,
+          commitSha: S.String,
+          branchName: S.String,
+          runIdentity: S.optional(__S(592, __c37, 0)),
+          externalLogUrl: S.optional(S.String),
+          projectId: S.optional(S.String),
+          branchId: S.optional(S.String),
+          applicationTopologyContentHash: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/builds", code: 200 })),
+      ).annotate({ identifier: "CreateBuildRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(624, __c39, 0),
+        }),
+      ).annotate({ identifier: "CreateBuildResponse" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          source: S.String,
+          state: S.String,
+          phase: S.NullOr(S.String),
+          commitSha: S.String,
+          branchName: S.String,
+          gitRepoId: S.NullOr(S.String),
+          projectId: S.NullOr(S.String),
+          branchId: S.NullOr(S.String),
+          externalLogUrl: S.NullOr(S.String),
+          deployedUrl: S.NullOr(S.String),
+          applicationTopologyContentHash: S.NullOr(S.String),
+          errorMessage: S.NullOr(S.String),
+          failingStep: S.NullOr(S.String),
+          createdAt: S.String,
+          startedAt: S.NullOr(S.String),
+          finishedAt: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "CreateBuildResponseData" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          databaseId: S.String,
+          name: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v1/connections", code: 200 })),
+      ).annotate({ identifier: "CreateConnectionRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String,
+          pass: S.String,
+          user: S.String,
+        }),
+      ).annotate({ identifier: "CreateConnectionResponseDataDirectConnection" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String,
+          port: S.Number,
+          connectionString: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "CreateConnectionResponseDataEndpointsDirect" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          direct: S.optional(__S(672, __c42, 0)),
+          pooled: S.optional(__S(672, __c42, 0)),
+          accelerate: S.optional(__S(672, __c42, 0)),
+        }),
+      ).annotate({ identifier: "CreateConnectionResponseDataEndpoints" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          url: S.String,
+          name: S.String,
+          createdAt: S.String,
+          kind: S.String,
+          endpoints: __S(673, __c42, 1),
+          connectionString: S.String.pipe(T.SensitiveValue({})),
+          directConnection: S.optional(S.NullOr(__S(656, __c41, 0))),
+          database: __S(512, __c32, 0),
+          host: S.NullOr(S.String),
+          pass: S.NullOr(S.String),
+          user: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "CreateConnectionResponseData" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(674, __c42, 2),
+        }),
+      ).annotate({ identifier: "CreateConnectionResponse" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/connections/{id}/rotate", code: 200 })),
+      ).annotate({ identifier: "CreateConnectionRotateRequest" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Union([__S(768, __c48, 0), __S(736, __c46, 0), __S(769, __c48, 1)]));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -6578,14 +6917,14 @@ function __c33(j: number): any {
           region: S.optional(S.String),
           name: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
-          source: S.optional(__S(528, __c33, 0)),
+          source: S.optional(__S(704, __c44, 0)),
           branchId: S.optional(S.NullOr(S.String)),
           branchGitName: S.optional(S.NullOr(S.String)),
           logicalId: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v1/databases", code: 200 })),
       ).annotate({ identifier: "CreateDatabaseRequest" });
     case 2:
-      return S.suspend(() => S.Union([__S(592, __c37, 0), __S(560, __c35, 0), __S(593, __c37, 1)]));
+      return S.suspend(() => S.Union([__S(768, __c48, 0), __S(736, __c46, 0), __S(769, __c48, 1)]));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6597,10 +6936,10 @@ function __c33(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(579, __c36, 3),
-          project: __S(2160, __c135, 0),
-          region: S.NullOr(__S(544, __c34, 0)),
-          source: S.NullOr(__S(530, __c33, 2)),
+          connections: __S(755, __c47, 3),
+          project: __S(512, __c32, 0),
+          region: S.NullOr(__S(720, __c45, 0)),
+          source: S.NullOr(__S(706, __c44, 2)),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
         }),
@@ -6608,12 +6947,12 @@ function __c33(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(531, __c33, 3),
+          data: __S(707, __c44, 3),
         }),
       ).annotate({ identifier: "CreateDatabaseResponse" });
   }
 }
-function __c34(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6624,7 +6963,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CreateDatabaseResponseDataRegion" });
   }
 }
-function __c35(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6636,7 +6975,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "CreateDatabaseRequestSourceCase1" });
   }
 }
-function __c36(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6649,9 +6988,9 @@ function __c36(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          direct: S.optional(__S(576, __c36, 0)),
-          pooled: S.optional(__S(576, __c36, 0)),
-          accelerate: S.optional(__S(576, __c36, 0)),
+          direct: S.optional(__S(752, __c47, 0)),
+          pooled: S.optional(__S(752, __c47, 0)),
+          accelerate: S.optional(__S(752, __c47, 0)),
         }),
       ).annotate({ identifier: "CreateDatabaseResponseDataConnectionsItemEndpoints" });
     case 2:
@@ -6663,16 +7002,16 @@ function __c36(j: number): any {
           name: S.String,
           createdAt: S.String,
           kind: S.String,
-          endpoints: __S(577, __c36, 1),
-          directConnection: S.optional(S.NullOr(__S(224, __c14, 0))),
-          database: __S(2160, __c135, 0),
+          endpoints: __S(753, __c47, 1),
+          directConnection: S.optional(S.NullOr(__S(656, __c41, 0))),
+          database: __S(512, __c32, 0),
         }),
       ).annotate({ identifier: "CreateDatabaseResponseDataConnectionsItem" });
     case 3:
-      return S.Array(__S(578, __c36, 2));
+      return S.Array(__S(754, __c47, 2));
   }
 }
-function __c37(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6689,7 +7028,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateDatabaseRequestSourceCase2" });
   }
 }
-function __c38(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6702,13 +7041,13 @@ function __c38(j: number): any {
       ).annotate({ identifier: "CreateDatabaseConnectionRequest" });
   }
 }
-function __c39(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           targetDatabaseId: S.String.pipe(T.Label()),
-          source: __S(560, __c35, 0),
+          source: __S(736, __c46, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/databases/{targetDatabaseId}/restore", code: 200 }),
         ),
@@ -6724,10 +7063,10 @@ function __c39(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(672, __c42, 0),
-          project: __S(2160, __c135, 0),
-          region: S.NullOr(__S(544, __c34, 0)),
-          source: __S(560, __c35, 0),
+          connections: __S(848, __c53, 0),
+          project: __S(512, __c32, 0),
+          region: S.NullOr(__S(720, __c45, 0)),
+          source: __S(736, __c46, 0),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
         }),
@@ -6735,12 +7074,12 @@ function __c39(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(625, __c39, 1),
+          data: __S(801, __c50, 1),
         }),
       ).annotate({ identifier: "CreateDatabaseRestoreResponse" });
   }
 }
-function __c40(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6752,14 +7091,14 @@ function __c40(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          direct: S.optional(__S(640, __c40, 0)),
-          pooled: S.optional(__S(640, __c40, 0)),
-          accelerate: S.optional(__S(640, __c40, 0)),
+          direct: S.optional(__S(816, __c51, 0)),
+          pooled: S.optional(__S(816, __c51, 0)),
+          accelerate: S.optional(__S(816, __c51, 0)),
         }),
       ).annotate({ identifier: "CreateDatabaseRestoreResponseDataConnectionsItemEndpoints" });
   }
 }
-function __c41(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6770,20 +7109,20 @@ function __c41(j: number): any {
           name: S.String,
           createdAt: S.String,
           kind: S.String,
-          endpoints: __S(641, __c40, 1),
-          directConnection: S.optional(S.NullOr(__S(224, __c14, 0))),
-          database: __S(2160, __c135, 0),
+          endpoints: __S(817, __c51, 1),
+          directConnection: S.optional(S.NullOr(__S(656, __c41, 0))),
+          database: __S(512, __c32, 0),
         }),
       ).annotate({ identifier: "CreateDatabaseRestoreResponseDataConnectionsItem" });
   }
 }
-function __c42(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(656, __c41, 0));
+      return S.Array(__S(832, __c52, 0));
   }
 }
-function __c43(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6800,12 +7139,12 @@ function __c43(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(689, __c43, 1),
+          data: __S(865, __c54, 1),
         }),
       ).annotate({ identifier: "CreateDeploymentStartResponse" });
   }
 }
-function __c44(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6815,13 +7154,13 @@ function __c44(j: number): any {
       ).annotate({ identifier: "CreateDeploymentStopRequest" });
   }
 }
-function __c45(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateDeploymentStopResponse" });
   }
 }
-function __c46(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6837,7 +7176,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "CreateDomainOwnershipVerifyRequest" });
   }
 }
-function __c47(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6846,7 +7185,7 @@ function __c47(j: number): any {
           type: S.String,
           workspaceId: S.String,
           domain: S.String,
-          verification: __S(768, __c48, 0),
+          verification: __S(944, __c59, 0),
           status: S.String,
           expiresAt: S.NullOr(S.String),
           verificationRecordLastSeenAt: S.NullOr(S.String),
@@ -6857,7 +7196,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "CreateDomainOwnershipVerifyResponseData" });
   }
 }
-function __c48(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6870,17 +7209,17 @@ function __c48(j: number): any {
       ).annotate({ identifier: "CreateDomainOwnershipVerifyResponseDataVerification" });
   }
 }
-function __c49(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(752, __c47, 0),
+          data: __S(928, __c58, 0),
         }),
       ).annotate({ identifier: "CreateDomainOwnershipVerifyResponse" });
   }
 }
-function __c50(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6890,7 +7229,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "CreateDomainRetryRequest" });
   }
 }
-function __c51(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6902,7 +7241,7 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "CreateDomainRetryResponseDataDnsRecordsItem" });
     case 1:
-      return S.Array(__S(816, __c51, 0));
+      return S.Array(__S(992, __c62, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6919,22 +7258,22 @@ function __c51(j: number): any {
           certExpiresAt: S.NullOr(S.String),
           createdAt: S.String,
           updatedAt: S.String,
-          dnsRecords: __S(817, __c51, 1),
+          dnsRecords: __S(993, __c62, 1),
         }),
       ).annotate({ identifier: "CreateDomainRetryResponseData" });
   }
 }
-function __c52(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(818, __c51, 2),
+          data: __S(994, __c62, 2),
         }),
       ).annotate({ identifier: "CreateDomainRetryResponse" });
   }
 }
-function __c53(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6948,17 +7287,17 @@ function __c53(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentVariableRequest" });
   }
 }
-function __c54(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(880, __c55, 0),
+          data: __S(1056, __c66, 0),
         }),
       ).annotate({ identifier: "CreateEnvironmentVariableResponse" });
   }
 }
-function __c55(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6978,7 +7317,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentVariableResponseData" });
   }
 }
-function __c56(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6991,7 +7330,7 @@ function __c56(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/v1/projects", code: 200 })),
       ).annotate({ identifier: "CreateProjectRequest" });
     case 1:
-      return S.suspend(() => S.Union([__S(592, __c37, 0), __S(560, __c35, 0), __S(593, __c37, 1)]));
+      return S.suspend(() => S.Union([__S(768, __c48, 0), __S(736, __c46, 0), __S(769, __c48, 1)]));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7003,14 +7342,14 @@ function __c56(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(579, __c36, 3),
-          region: __S(544, __c34, 0),
-          source: S.NullOr(__S(897, __c56, 1)),
+          connections: __S(755, __c47, 3),
+          region: __S(720, __c45, 0),
+          source: S.NullOr(__S(1073, __c67, 1)),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
-          apiKeys: __S(913, __c57, 1),
+          apiKeys: __S(1089, __c68, 1),
           connectionString: S.NullOr(S.String).pipe(T.SensitiveValue({})),
-          directConnection: S.NullOr(__S(224, __c14, 0)),
+          directConnection: S.NullOr(__S(656, __c41, 0)),
         }),
       ).annotate({ identifier: "CreateProjectResponseDataDatabase" });
     case 3:
@@ -7023,19 +7362,19 @@ function __c56(j: number): any {
           logicalId: S.NullOr(S.String),
           createdAt: S.String,
           defaultRegion: S.NullOr(S.String),
-          workspace: __S(2160, __c135, 0),
-          database: S.NullOr(__S(898, __c56, 2)),
+          workspace: __S(512, __c32, 0),
+          database: S.NullOr(__S(1074, __c67, 2)),
         }),
       ).annotate({ identifier: "CreateProjectResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(899, __c56, 3),
+          data: __S(1075, __c67, 3),
         }),
       ).annotate({ identifier: "CreateProjectResponse" });
   }
 }
-function __c57(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7046,16 +7385,16 @@ function __c57(j: number): any {
           name: S.String,
           createdAt: S.String,
           kind: S.String,
-          endpoints: __S(641, __c40, 1),
+          endpoints: __S(817, __c51, 1),
           connectionString: S.String.pipe(T.SensitiveValue({})),
-          directConnection: S.optional(S.NullOr(__S(224, __c14, 0))),
+          directConnection: S.optional(S.NullOr(__S(656, __c41, 0))),
         }),
       ).annotate({ identifier: "CreateProjectResponseDataDatabaseApiKeysItem" });
     case 1:
-      return S.Array(__S(912, __c57, 0));
+      return S.Array(__S(1088, __c68, 0));
   }
 }
-function __c58(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7067,17 +7406,17 @@ function __c58(j: number): any {
       ).annotate({ identifier: "CreateProjectBranchRequest" });
   }
 }
-function __c59(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(960, __c60, 0),
+          data: __S(1136, __c71, 0),
         }),
       ).annotate({ identifier: "CreateProjectBranchResponse" });
   }
 }
-function __c60(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7090,12 +7429,12 @@ function __c60(j: number): any {
           role: S.String,
           createdAt: S.String,
           updatedAt: S.String,
-          project: __S(2160, __c135, 0),
+          project: __S(512, __c32, 0),
         }),
       ).annotate({ identifier: "CreateProjectBranchResponseData" });
   }
 }
-function __c61(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7116,7 +7455,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "CreateProjectBranchAlchemyStateLeaseRequest" });
   }
 }
-function __c62(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7128,12 +7467,12 @@ function __c62(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(992, __c62, 0),
+          data: __S(1168, __c73, 0),
         }),
       ).annotate({ identifier: "CreateProjectBranchAlchemyStateLeaseResponse" });
   }
 }
-function __c63(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7143,7 +7482,7 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "CreateProjectDatabaseRequestFromDatabase" });
     case 1:
-      return S.suspend(() => S.Union([__S(592, __c37, 0), __S(560, __c35, 0), __S(593, __c37, 1)]));
+      return S.suspend(() => S.Union([__S(768, __c48, 0), __S(736, __c46, 0), __S(769, __c48, 1)]));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7151,12 +7490,12 @@ function __c63(j: number): any {
           region: S.optional(S.String),
           name: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
-          fromDatabase: S.optional(__S(1008, __c63, 0)),
-          source: S.optional(__S(1009, __c63, 1)),
+          fromDatabase: S.optional(__S(1184, __c74, 0)),
+          source: S.optional(__S(1185, __c74, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/projects/{projectId}/databases", code: 200 })),
       ).annotate({ identifier: "CreateProjectDatabaseRequest" });
     case 3:
-      return S.suspend(() => S.Union([__S(592, __c37, 0), __S(560, __c35, 0), __S(593, __c37, 1)]));
+      return S.suspend(() => S.Union([__S(768, __c48, 0), __S(736, __c46, 0), __S(769, __c48, 1)]));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -7168,26 +7507,26 @@ function __c63(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(579, __c36, 3),
-          project: __S(2160, __c135, 0),
-          region: __S(544, __c34, 0),
-          source: S.NullOr(__S(1011, __c63, 3)),
+          connections: __S(755, __c47, 3),
+          project: __S(512, __c32, 0),
+          region: __S(720, __c45, 0),
+          source: S.NullOr(__S(1187, __c74, 3)),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
-          apiKeys: __S(913, __c57, 1),
+          apiKeys: __S(1089, __c68, 1),
           connectionString: S.NullOr(S.String).pipe(T.SensitiveValue({})),
-          directConnection: S.NullOr(__S(224, __c14, 0)),
+          directConnection: S.NullOr(__S(656, __c41, 0)),
         }),
       ).annotate({ identifier: "CreateProjectDatabaseResponseData" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1012, __c63, 4),
+          data: __S(1188, __c74, 4),
         }),
       ).annotate({ identifier: "CreateProjectDatabaseResponse" });
   }
 }
-function __c64(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7198,7 +7537,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "CreateProjectTransferRequest" });
   }
 }
-function __c65(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7225,12 +7564,12 @@ function __c65(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1041, __c65, 1),
+          data: __S(1217, __c76, 1),
         }),
       ).annotate({ identifier: "CreateScmInstallationsInstallIntentResponse" });
   }
 }
-function __c66(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7245,7 +7584,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "CreateServiceRequest" });
   }
 }
-function __c67(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7254,7 +7593,7 @@ function __c67(j: number): any {
           type: S.String,
           url: S.String,
           name: S.String,
-          region: __S(544, __c34, 0),
+          region: __S(720, __c45, 0),
           projectId: S.String,
           branchId: S.NullOr(S.String),
           latestDeploymentId: S.NullOr(S.String),
@@ -7265,17 +7604,17 @@ function __c67(j: number): any {
       ).annotate({ identifier: "CreateServiceResponseData" });
   }
 }
-function __c68(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1072, __c67, 0),
+          data: __S(1248, __c78, 0),
         }),
       ).annotate({ identifier: "CreateServiceResponse" });
   }
 }
-function __c69(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7287,7 +7626,7 @@ function __c69(j: number): any {
       return S.suspend(() =>
         S.Struct({
           serviceId: S.String.pipe(T.Label()),
-          portMapping: S.optional(__S(1104, __c69, 0)),
+          portMapping: S.optional(__S(1280, __c80, 0)),
           skipCodeUpload: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/v1/services/{serviceId}/deployments", code: 200 })),
       ).annotate({ identifier: "CreateServiceDeploymentRequest" });
@@ -7304,12 +7643,12 @@ function __c69(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1106, __c69, 2),
+          data: __S(1282, __c80, 2),
         }),
       ).annotate({ identifier: "CreateServiceDeploymentResponse" });
   }
 }
-function __c70(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7321,13 +7660,13 @@ function __c70(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(818, __c51, 2),
+          data: __S(994, __c62, 2),
           httpStatus: S.Number.pipe(T.ResponseCode()),
         }),
       ).annotate({ identifier: "CreateServiceDomainResponse" });
   }
 }
-function __c71(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7339,7 +7678,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "CreateServicePromoteRequest" });
   }
 }
-function __c72(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7351,12 +7690,12 @@ function __c72(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1152, __c72, 0),
+          data: __S(1328, __c83, 0),
         }),
       ).annotate({ identifier: "CreateServicePromoteResponse" });
   }
 }
-function __c73(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7368,7 +7707,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "CreateServiceRollbackRequest" });
   }
 }
-function __c74(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7381,17 +7720,17 @@ function __c74(j: number): any {
       ).annotate({ identifier: "CreateServiceUrlRequest" });
   }
 }
-function __c75(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1223, __c76, 7),
+          data: __S(1399, __c87, 7),
         }),
       ).annotate({ identifier: "CreateServiceUrlResponse" });
   }
 }
-function __c76(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7421,7 +7760,7 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "CreateServiceUrlResponseDataRecordsItem" });
     case 3:
-      return S.Array(__S(1218, __c76, 2));
+      return S.Array(__S(1394, __c87, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -7461,14 +7800,14 @@ function __c76(j: number): any {
           hostname: S.String,
           logicalId: S.NullOr(S.String),
           status: S.String,
-          conditions: __S(1216, __c76, 0),
+          conditions: __S(1392, __c87, 0),
           firstUnmetCondition: S.NullOr(S.String),
-          ownershipExpiry: S.NullOr(__S(1217, __c76, 1)),
-          records: __S(1219, __c76, 3),
-          heldBy: S.NullOr(__S(1220, __c76, 4)),
-          customDomain: S.NullOr(__S(1221, __c76, 5)),
+          ownershipExpiry: S.NullOr(__S(1393, __c87, 1)),
+          records: __S(1395, __c87, 3),
+          heldBy: S.NullOr(__S(1396, __c87, 4)),
+          customDomain: S.NullOr(__S(1397, __c87, 5)),
           customDomainSyncError: S.NullOr(S.String),
-          switchboardDns: S.NullOr(__S(1222, __c76, 6)),
+          switchboardDns: S.NullOr(__S(1398, __c87, 6)),
           setupUrl: S.NullOr(S.String),
           createdAt: S.String,
           updatedAt: S.String,
@@ -7476,7 +7815,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "CreateServiceUrlResponseData" });
   }
 }
-function __c77(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7489,7 +7828,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "CreateSourceRepositoryRequest" });
   }
 }
-function __c78(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7511,18 +7850,18 @@ function __c78(j: number): any {
       ).annotate({ identifier: "CreateSourceRepositoryResponseData" });
   }
 }
-function __c79(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1248, __c78, 0),
+          data: __S(1424, __c89, 0),
           hint: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateSourceRepositoryResponse" });
   }
 }
-function __c80(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7532,7 +7871,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "CreateUrlCheckRequest" });
   }
 }
-function __c81(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7542,17 +7881,17 @@ function __c81(j: number): any {
       ).annotate({ identifier: "CreateWorkspaceRequest" });
   }
 }
-function __c82(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1328, __c83, 0),
+          data: __S(1504, __c94, 0),
         }),
       ).annotate({ identifier: "CreateWorkspaceResponse" });
   }
 }
-function __c83(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7566,7 +7905,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "CreateWorkspaceResponseData" });
   }
 }
-function __c84(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7584,13 +7923,13 @@ function __c84(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(752, __c47, 0),
+          data: __S(928, __c58, 0),
           httpStatus: S.Number.pipe(T.ResponseCode()),
         }),
       ).annotate({ identifier: "CreateWorkspaceDomainOwnershipResponse" });
   }
 }
-function __c85(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7620,12 +7959,12 @@ function __c85(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1361, __c85, 1),
+          data: __S(1537, __c96, 1),
         }),
       ).annotate({ identifier: "CreateWorkspaceServiceTokenResponse" });
   }
 }
-function __c86(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7635,7 +7974,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "DeleteBranchRequest" });
   }
 }
-function __c87(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7645,7 +7984,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "DeleteBucketRequest" });
   }
 }
-function __c88(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7658,7 +7997,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "DeleteBucketKeyRequest" });
   }
 }
-function __c89(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7668,7 +8007,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "DeleteConnectionRequest" });
   }
 }
-function __c90(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7678,7 +8017,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "DeleteDatabaseRequest" });
   }
 }
-function __c91(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7688,7 +8027,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "DeleteDeploymentRequest" });
   }
 }
-function __c92(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7698,7 +8037,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "DeleteDomainRequest" });
   }
 }
-function __c93(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7710,7 +8049,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "DeleteDomainOwnershipRequest" });
   }
 }
-function __c94(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7722,7 +8061,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentVariableRequest" });
   }
 }
-function __c95(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7732,7 +8071,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationRequest" });
   }
 }
-function __c96(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7742,7 +8081,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "DeleteProjectRequest" });
   }
 }
-function __c97(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7759,7 +8098,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "DeleteProjectBranchAlchemyStateLeaseRequest" });
   }
 }
-function __c98(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7778,7 +8117,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "DeleteProjectBranchAlchemyStateStateStackRequest" });
   }
 }
-function __c99(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7798,7 +8137,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "DeleteProjectBranchAlchemyStateStateStackStageResourceRequest" });
   }
 }
-function __c100(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7808,7 +8147,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "DeleteServiceRequest" });
   }
 }
-function __c101(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7818,7 +8157,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "DeleteSourceRepositoryRequest" });
   }
 }
-function __c102(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7828,7 +8167,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "DeleteUrlRequest" });
   }
 }
-function __c103(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7845,7 +8184,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "DeleteWorkspaceIntegrationRequest" });
   }
 }
-function __c104(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7862,7 +8201,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "DeleteWorkspaceServiceTokenRequest" });
   }
 }
-function __c105(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7883,7 +8222,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "GetAgentApprovalResponse" });
   }
 }
-function __c106(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7893,7 +8232,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "GetBranchRequest" });
   }
 }
-function __c107(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7903,7 +8242,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "GetBucketRequest" });
   }
 }
-function __c108(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7925,17 +8264,17 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "GetBucketKeysResponseDataItem" });
     case 2:
-      return S.Array(__S(1729, __c108, 1));
+      return S.Array(__S(1905, __c119, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1730, __c108, 2),
-          pagination: __S(1744, __c109, 0),
+          data: __S(1906, __c119, 2),
+          pagination: __S(1920, __c120, 0),
         }),
       ).annotate({ identifier: "GetBucketKeysResponse" });
   }
 }
-function __c109(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7946,7 +8285,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "GetBucketKeysResponsePagination" });
   }
 }
-function __c110(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7960,17 +8299,17 @@ function __c110(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/buckets", code: 200 })),
       ).annotate({ identifier: "GetBucketsRequest" });
     case 1:
-      return S.Array(__S(2192, __c137, 0));
+      return S.Array(__S(544, __c34, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1761, __c110, 1),
-          pagination: __S(1744, __c109, 0),
+          data: __S(1937, __c121, 1),
+          pagination: __S(1920, __c120, 0),
         }),
       ).annotate({ identifier: "GetBucketsResponse" });
   }
 }
-function __c111(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7988,7 +8327,7 @@ function __c111(j: number): any {
         }),
       ).annotate({ identifier: "GetBuildResponseDataResourcesItem" });
     case 2:
-      return S.Array(__S(1777, __c111, 1));
+      return S.Array(__S(1953, __c122, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -8009,18 +8348,18 @@ function __c111(j: number): any {
           createdAt: S.String,
           startedAt: S.NullOr(S.String),
           finishedAt: S.NullOr(S.String),
-          resources: __S(1778, __c111, 2),
+          resources: __S(1954, __c122, 2),
         }),
       ).annotate({ identifier: "GetBuildResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1779, __c111, 3),
+          data: __S(1955, __c122, 3),
         }),
       ).annotate({ identifier: "GetBuildResponse" });
   }
 }
-function __c112(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8033,17 +8372,17 @@ function __c112(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/builds", code: 200 })),
       ).annotate({ identifier: "GetBuildsRequest" });
     case 1:
-      return S.Array(__S(32, __c2, 0));
+      return S.Array(__S(624, __c39, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1793, __c112, 1),
-          pagination: __S(1744, __c109, 0),
+          data: __S(1969, __c123, 1),
+          pagination: __S(1920, __c120, 0),
         }),
       ).annotate({ identifier: "GetBuildsResponse" });
   }
 }
-function __c113(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8054,12 +8393,12 @@ function __c113(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(656, __c41, 0),
+          data: __S(832, __c52, 0),
         }),
       ).annotate({ identifier: "GetConnectionResponse" });
   }
 }
-function __c114(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8071,18 +8410,18 @@ function __c114(j: number): any {
       ).annotate({ identifier: "GetConnectionsRequest" });
   }
 }
-function __c115(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(672, __c42, 0),
-          pagination: __S(1744, __c109, 0),
+          data: __S(848, __c53, 0),
+          pagination: __S(1920, __c120, 0),
         }),
       ).annotate({ identifier: "GetConnectionsResponse" });
   }
 }
-function __c116(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8091,7 +8430,7 @@ function __c116(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/databases/{databaseId}", code: 200 })),
       ).annotate({ identifier: "GetDatabaseRequest" });
     case 1:
-      return S.suspend(() => S.Union([__S(592, __c37, 0), __S(560, __c35, 0), __S(593, __c37, 1)]));
+      return S.suspend(() => S.Union([__S(768, __c48, 0), __S(736, __c46, 0), __S(769, __c48, 1)]));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8103,10 +8442,10 @@ function __c116(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(672, __c42, 0),
-          project: __S(2160, __c135, 0),
-          region: S.NullOr(__S(544, __c34, 0)),
-          source: S.NullOr(__S(1857, __c116, 1)),
+          connections: __S(848, __c53, 0),
+          project: __S(512, __c32, 0),
+          region: S.NullOr(__S(720, __c45, 0)),
+          source: S.NullOr(__S(2033, __c127, 1)),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
         }),
@@ -8114,12 +8453,12 @@ function __c116(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1858, __c116, 2),
+          data: __S(2034, __c127, 2),
         }),
       ).annotate({ identifier: "GetDatabaseResponse" });
   }
 }
-function __c117(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8140,7 +8479,7 @@ function __c117(j: number): any {
         }),
       ).annotate({ identifier: "GetDatabaseBackupsResponseDataItem" });
     case 2:
-      return S.Array(__S(1873, __c117, 1));
+      return S.Array(__S(2049, __c128, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -8157,14 +8496,14 @@ function __c117(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1874, __c117, 2),
-          meta: __S(1875, __c117, 3),
-          pagination: __S(1876, __c117, 4),
+          data: __S(2050, __c128, 2),
+          meta: __S(2051, __c128, 3),
+          pagination: __S(2052, __c128, 4),
         }),
       ).annotate({ identifier: "GetDatabaseBackupsResponse" });
   }
 }
-function __c118(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8178,7 +8517,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "GetDatabaseConnectionsRequest" });
   }
 }
-function __c119(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8192,7 +8531,7 @@ function __c119(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/databases", code: 200 })),
       ).annotate({ identifier: "GetDatabasesRequest" });
     case 1:
-      return S.suspend(() => S.Union([__S(592, __c37, 0), __S(560, __c35, 0), __S(593, __c37, 1)]));
+      return S.suspend(() => S.Union([__S(768, __c48, 0), __S(736, __c46, 0), __S(769, __c48, 1)]));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8204,53 +8543,26 @@ function __c119(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(672, __c42, 0),
-          project: __S(2160, __c135, 0),
-          region: S.NullOr(__S(544, __c34, 0)),
-          source: S.NullOr(__S(1905, __c119, 1)),
+          connections: __S(848, __c53, 0),
+          project: __S(512, __c32, 0),
+          region: S.NullOr(__S(720, __c45, 0)),
+          source: S.NullOr(__S(2081, __c130, 1)),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "GetDatabasesResponseDataItem" });
     case 3:
-      return S.Array(__S(1906, __c119, 2));
+      return S.Array(__S(2082, __c130, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1907, __c119, 3),
-          pagination: __S(1744, __c109, 0),
+          data: __S(2083, __c130, 3),
+          pagination: __S(1920, __c120, 0),
         }),
       ).annotate({ identifier: "GetDatabasesResponse" });
   }
 }
-function __c120(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          token: S.String,
-          expiresInSeconds: S.optional(S.Number),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/auth/github-actions/token", code: 200 })),
-      ).annotate({ identifier: "CreateAuthGithubActionsTokenRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          value: S.String,
-          expiresAt: S.String,
-          workspaceId: S.String,
-        }),
-      ).annotate({ identifier: "CreateAuthGithubActionsTokenResponseData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1921, __c120, 1),
-        }),
-      ).annotate({ identifier: "CreateAuthGithubActionsTokenResponse" });
-  }
-}
-function __c121(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8277,21 +8589,21 @@ function __c121(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          operations: __S(1938, __c121, 2),
-          storage: __S(1938, __c121, 2),
+          operations: __S(2098, __c131, 2),
+          storage: __S(2098, __c131, 2),
         }),
       ).annotate({ identifier: "GetDatabaseUsageResponseMetrics" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          period: __S(1937, __c121, 1),
-          metrics: __S(1939, __c121, 3),
+          period: __S(2097, __c131, 1),
+          metrics: __S(2099, __c131, 3),
           generatedAt: S.String,
         }),
       ).annotate({ identifier: "GetDatabaseUsageResponse" });
   }
 }
-function __c122(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8317,20 +8629,20 @@ function __c122(j: number): any {
           foundryVersionId: S.String,
           status: S.String,
           previewDomain: S.NullOr(S.String),
-          envVars: S.optional(__S(1953, __c122, 1)),
-          portMapping: S.optional(__S(1954, __c122, 2)),
+          envVars: S.optional(__S(2113, __c132, 1)),
+          portMapping: S.optional(__S(2114, __c132, 2)),
           createdAt: S.String,
         }),
       ).annotate({ identifier: "GetDeploymentResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1955, __c122, 3),
+          data: __S(2115, __c132, 3),
         }),
       ).annotate({ identifier: "GetDeploymentResponse" });
   }
 }
-function __c123(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8343,7 +8655,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "GetDeploymentLogsRequest" });
   }
 }
-function __c124(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8353,7 +8665,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "GetDomainRequest" });
   }
 }
-function __c125(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8365,7 +8677,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "GetDomainOwnershipRequest" });
   }
 }
-function __c126(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8375,7 +8687,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "GetEnvironmentVariableRequest" });
   }
 }
-function __c127(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8389,17 +8701,17 @@ function __c127(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/environment-variables", code: 200 })),
       ).annotate({ identifier: "GetEnvironmentVariablesRequest" });
     case 1:
-      return S.Array(__S(880, __c55, 0));
+      return S.Array(__S(1056, __c66, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2033, __c127, 1),
-          pagination: __S(1744, __c109, 0),
+          data: __S(2193, __c137, 1),
+          pagination: __S(1920, __c120, 0),
         }),
       ).annotate({ identifier: "GetEnvironmentVariablesResponse" });
   }
 }
-function __c128(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8410,12 +8722,12 @@ function __c128(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2066, __c129, 2),
+          data: __S(2226, __c139, 2),
         }),
       ).annotate({ identifier: "GetIntegrationResponse" });
   }
 }
-function __c129(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8439,20 +8751,20 @@ function __c129(j: number): any {
           id: S.String,
           url: S.String,
           createdAt: S.String,
-          scopes: __S(2080, __c130, 0),
-          client: __S(2064, __c129, 0),
-          createdByUser: __S(2065, __c129, 1),
+          scopes: __S(2240, __c140, 0),
+          client: __S(2224, __c139, 0),
+          createdByUser: __S(2225, __c139, 1),
         }),
       ).annotate({ identifier: "GetIntegrationResponseData" });
   }
 }
-function __c130(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c131(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8464,20 +8776,20 @@ function __c131(j: number): any {
       ).annotate({ identifier: "GetIntegrationsRequest" });
   }
 }
-function __c132(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2066, __c129, 2));
+      return S.Array(__S(2226, __c139, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2112, __c132, 0),
-          pagination: __S(1744, __c109, 0),
+          data: __S(2272, __c142, 0),
+          pagination: __S(1920, __c120, 0),
         }),
       ).annotate({ identifier: "GetIntegrationsResponse" });
   }
 }
-function __c133(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8502,75 +8814,20 @@ function __c133(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          user: S.NullOr(__S(2129, __c133, 1)),
-          workspace: S.NullOr(__S(544, __c34, 0)),
-          credential: __S(2130, __c133, 2),
+          user: S.NullOr(__S(2289, __c143, 1)),
+          workspace: S.NullOr(__S(720, __c45, 0)),
+          credential: __S(2290, __c143, 2),
         }),
       ).annotate({ identifier: "GetMeResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2131, __c133, 3),
+          data: __S(2291, __c143, 3),
         }),
       ).annotate({ identifier: "GetMeResponse" });
   }
 }
-function __c134(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String,
-          name: S.optional(S.String),
-          branchId: S.optional(S.String),
-          branchGitName: S.optional(S.String),
-          logicalId: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/buckets", code: 200 })),
-      ).annotate({ identifier: "CreateBucketRequest" });
-  }
-}
-function __c135(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          url: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "CreateBucketResponseDataProject" });
-  }
-}
-function __c136(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2192, __c137, 0),
-        }),
-      ).annotate({ identifier: "CreateBucketResponse" });
-  }
-}
-function __c137(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          url: S.String,
-          name: S.String,
-          providerName: S.String,
-          status: S.String,
-          createdAt: S.String,
-          project: __S(2160, __c135, 0),
-          branchId: S.NullOr(S.String),
-          logicalId: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "CreateBucketResponseData" });
-  }
-}
-function __c138(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8580,17 +8837,17 @@ function __c138(j: number): any {
       ).annotate({ identifier: "GetProjectRequest" });
   }
 }
-function __c139(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2240, __c140, 0),
+          data: __S(2336, __c146, 0),
         }),
       ).annotate({ identifier: "GetProjectResponse" });
   }
 }
-function __c140(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8602,12 +8859,12 @@ function __c140(j: number): any {
           logicalId: S.NullOr(S.String),
           createdAt: S.String,
           defaultRegion: S.NullOr(S.String),
-          workspace: __S(2160, __c135, 0),
+          workspace: __S(512, __c32, 0),
         }),
       ).annotate({ identifier: "GetProjectResponseData" });
   }
 }
-function __c141(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8624,15 +8881,15 @@ function __c141(j: number): any {
       ).annotate({ identifier: "GetProjectBranchAlchemyStateStateStacksRequest" });
   }
 }
-function __c142(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(2080, __c130, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2240, __c140, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetProjectBranchAlchemyStateStateStacksResponse",
       });
   }
 }
-function __c143(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8651,7 +8908,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "GetProjectBranchAlchemyStateStateStackStageOutputRequest" });
   }
 }
-function __c144(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -8659,7 +8916,7 @@ function __c144(j: number): any {
       });
   }
 }
-function __c145(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8681,12 +8938,12 @@ function __c145(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(2321, __c145, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2417, __c151, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetProjectBranchAlchemyStateStateStackStageReplacedResourcesResponse",
       });
   }
 }
-function __c146(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8706,7 +8963,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "GetProjectBranchAlchemyStateStateStackStageResourceRequest" });
   }
 }
-function __c147(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8725,7 +8982,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "GetProjectBranchAlchemyStateStateStackStageResourcesRequest" });
   }
 }
-function __c148(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8743,7 +9000,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "GetProjectBranchAlchemyStateStateStackStagesRequest" });
   }
 }
-function __c149(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8766,7 +9023,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "GetProjectBranchAlchemyStateVersionResponse" });
   }
 }
-function __c150(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8783,7 +9040,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "GetProjectBranchApplicationTopologyRequest" });
   }
 }
-function __c151(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8795,7 +9052,7 @@ function __c151(j: number): any {
         }),
       ).annotate({ identifier: "GetProjectBranchApplicationTopologyResponseDataNodesItem" });
     case 1:
-      return S.Array(__S(2416, __c151, 0));
+      return S.Array(__S(2512, __c157, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8807,7 +9064,7 @@ function __c151(j: number): any {
         }),
       ).annotate({ identifier: "GetProjectBranchApplicationTopologyResponseDataPortsItem" });
     case 3:
-      return S.Array(__S(2418, __c151, 2));
+      return S.Array(__S(2514, __c157, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -8819,20 +9076,20 @@ function __c151(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          from: __S(2420, __c151, 4),
-          to: __S(2420, __c151, 4),
+          from: __S(2516, __c157, 4),
+          to: __S(2516, __c157, 4),
           family: S.String,
           style: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetProjectBranchApplicationTopologyResponseDataEdgesItem" });
     case 6:
-      return S.Array(__S(2421, __c151, 5));
+      return S.Array(__S(2517, __c157, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          nodes: __S(2417, __c151, 1),
-          ports: __S(2419, __c151, 3),
-          edges: __S(2422, __c151, 6),
+          nodes: __S(2513, __c157, 1),
+          ports: __S(2515, __c157, 3),
+          edges: __S(2518, __c157, 6),
           contentHash: S.optional(S.String),
           writtenAt: S.optional(S.String),
         }),
@@ -8840,12 +9097,12 @@ function __c151(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2423, __c151, 7),
+          data: __S(2519, __c157, 7),
         }),
       ).annotate({ identifier: "GetProjectBranchApplicationTopologyResponse" });
   }
 }
-function __c152(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8858,50 +9115,17 @@ function __c152(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/projects/{projectId}/branches", code: 200 })),
       ).annotate({ identifier: "GetProjectBranchesRequest" });
     case 1:
-      return S.Array(__S(960, __c60, 0));
+      return S.Array(__S(1136, __c71, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2433, __c152, 1),
-          pagination: __S(1744, __c109, 0),
+          data: __S(2529, __c158, 1),
+          pagination: __S(1920, __c120, 0),
         }),
       ).annotate({ identifier: "GetProjectBranchesResponse" });
   }
 }
-function __c153(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          bucketId: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          role: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v1/buckets/{bucketId}/keys", code: 200 })),
-      ).annotate({ identifier: "CreateBucketKeyRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          name: S.String,
-          valueHint: S.String,
-          role: S.String,
-          createdAt: S.String,
-          secretAccessKey: S.String.pipe(T.SensitiveValue({})),
-          accessKeyId: S.String.pipe(T.SensitiveValue({})),
-          endpoint: S.String,
-          bucketName: S.String,
-        }),
-      ).annotate({ identifier: "CreateBucketKeyResponseData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2449, __c153, 1),
-        }),
-      ).annotate({ identifier: "CreateBucketKeyResponse" });
-  }
-}
-function __c154(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8919,7 +9143,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "GetProjectBranchUrlsRequest" });
   }
 }
-function __c155(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8930,20 +9154,20 @@ function __c155(j: number): any {
       ).annotate({ identifier: "GetProjectBranchUrlsResponsePagination" });
   }
 }
-function __c156(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1223, __c76, 7));
+      return S.Array(__S(1399, __c87, 7));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2496, __c156, 0),
-          pagination: __S(2480, __c155, 0),
+          data: __S(2576, __c161, 0),
+          pagination: __S(2560, __c160, 0),
         }),
       ).annotate({ identifier: "GetProjectBranchUrlsResponse" });
   }
 }
-function __c157(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8954,7 +9178,7 @@ function __c157(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/projects/{projectId}/databases", code: 200 })),
       ).annotate({ identifier: "GetProjectDatabasesRequest" });
     case 1:
-      return S.suspend(() => S.Union([__S(592, __c37, 0), __S(560, __c35, 0), __S(593, __c37, 1)]));
+      return S.suspend(() => S.Union([__S(768, __c48, 0), __S(736, __c46, 0), __S(769, __c48, 1)]));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8966,26 +9190,26 @@ function __c157(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(672, __c42, 0),
-          project: __S(2160, __c135, 0),
-          region: S.NullOr(__S(544, __c34, 0)),
-          source: S.NullOr(__S(2513, __c157, 1)),
+          connections: __S(848, __c53, 0),
+          project: __S(512, __c32, 0),
+          region: S.NullOr(__S(720, __c45, 0)),
+          source: S.NullOr(__S(2593, __c162, 1)),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "GetProjectDatabasesResponseDataItem" });
     case 3:
-      return S.Array(__S(2514, __c157, 2));
+      return S.Array(__S(2594, __c162, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2515, __c157, 3),
-          pagination: __S(1744, __c109, 0),
+          data: __S(2595, __c162, 3),
+          pagination: __S(1920, __c120, 0),
         }),
       ).annotate({ identifier: "GetProjectDatabasesResponse" });
   }
 }
-function __c158(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8996,17 +9220,17 @@ function __c158(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/projects", code: 200 })),
       ).annotate({ identifier: "GetProjectsRequest" });
     case 1:
-      return S.Array(__S(2240, __c140, 0));
+      return S.Array(__S(2336, __c146, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2529, __c158, 1),
-          pagination: __S(1744, __c109, 0),
+          data: __S(2609, __c163, 1),
+          pagination: __S(1920, __c120, 0),
         }),
       ).annotate({ identifier: "GetProjectsResponse" });
   }
 }
-function __c159(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9025,16 +9249,16 @@ function __c159(j: number): any {
         }),
       ).annotate({ identifier: "GetRegionsResponseDataItem" });
     case 2:
-      return S.Array(__S(2545, __c159, 1));
+      return S.Array(__S(2625, __c164, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2546, __c159, 2),
+          data: __S(2626, __c164, 2),
         }),
       ).annotate({ identifier: "GetRegionsResponse" });
   }
 }
-function __c160(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9049,156 +9273,13 @@ function __c160(j: number): any {
         }),
       ).annotate({ identifier: "GetRegionsAccelerateResponseDataItem" });
     case 2:
-      return S.Array(__S(2561, __c160, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2562, __c160, 2),
-        }),
-      ).annotate({ identifier: "GetRegionsAccelerateResponse" });
-  }
-}
-function __c161(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/regions/postgres", code: 200 })),
-      ).annotate({ identifier: "GetRegionsPostgresRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          name: S.String,
-          status: S.String,
-        }),
-      ).annotate({ identifier: "GetRegionsPostgresResponseDataItem" });
-    case 2:
-      return S.Array(__S(2577, __c161, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2578, __c161, 2),
-        }),
-      ).annotate({ identifier: "GetRegionsPostgresResponse" });
-  }
-}
-function __c162(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          installationId: S.String.pipe(T.Label()),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/scm-installations/{installationId}/repositories",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetScmInstallationRepositoriesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number,
-          type: S.String,
-          fullName: S.String,
-          defaultBranch: S.String,
-          isPrivate: S.Boolean,
-        }),
-      ).annotate({ identifier: "GetScmInstallationRepositoriesResponseDataItem" });
-    case 2:
-      return S.Array(__S(2593, __c162, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2594, __c162, 2),
-          pagination: __S(1744, __c109, 0),
-        }),
-      ).annotate({ identifier: "GetScmInstallationRepositoriesResponse" });
-  }
-}
-function __c163(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          workspaceId: S.String.pipe(T.Query()),
-          repository: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/scm-installations", code: 200 })),
-      ).annotate({ identifier: "GetScmInstallationsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          url: S.String,
-          provider: S.String,
-          installationId: S.Number,
-          accountId: S.Number,
-          accountLogin: S.String,
-          accountType: S.String,
-          suspended: S.Boolean,
-          createdAt: S.String,
-          updatedAt: S.String,
-        }),
-      ).annotate({ identifier: "GetScmInstallationsResponseDataItem" });
-    case 2:
-      return S.Array(__S(2609, __c163, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2610, __c163, 2),
-          pagination: __S(1744, __c109, 0),
-          hint: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetScmInstallationsResponse" });
-  }
-}
-function __c164(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/services/{serviceId}", code: 200 })),
-      ).annotate({ identifier: "GetServiceRequest" });
-  }
-}
-function __c165(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/services/{serviceId}/deployments", code: 200 })),
-      ).annotate({ identifier: "GetServiceDeploymentsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          url: S.String,
-          serviceId: S.String,
-          foundryVersionId: S.String,
-          createdAt: S.String,
-        }),
-      ).annotate({ identifier: "GetServiceDeploymentsResponseDataItem" });
-    case 2:
       return S.Array(__S(2641, __c165, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           data: __S(2642, __c165, 2),
-          pagination: __S(1744, __c109, 0),
         }),
-      ).annotate({ identifier: "GetServiceDeploymentsResponse" });
+      ).annotate({ identifier: "GetRegionsAccelerateResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.
